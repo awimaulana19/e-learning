@@ -1,0 +1,134 @@
+<link
+  rel="stylesheet"
+  href="/static/assets/extensions/simple-datatables/style.css"
+/>
+<link rel="stylesheet" href="/static/assets/css/pages/simple-datatables.css" />
+<link
+  rel="stylesheet"
+  href="/static/assets/extensions/sweetalert2/sweetalert2.min.css"
+/>
+<style>
+  .link-course:hover {
+    text-decoration: underline;
+  }
+</style>
+<section class="section mt-3">
+  <div class="col-lg-12 col-md-12 mb-4">
+    <div class="card pb-4">
+      <div
+        class="d-flex align-items-center justify-content-between mt-2"
+        style="margin-bottom: -15px"
+      >
+        <h4 class="card-header">Pertemuan</h4>
+        <button
+          type="button"
+          class="btn btn-primary me-lg-5 me-4"
+          data-bs-toggle="modal"
+          data-bs-target="#default"
+        >
+          Tambah Data
+        </button>
+        <%- include('tambah') %>
+      </div>
+      <% courses.forEach(course => { %>
+      <hr width="95%" class="me-auto ms-auto mb-4" />
+      <div class="row ms-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <h4><%= course.nama %></h4>
+          <div class="d-flex me-5">
+            <a
+              href="/guru/course/<%= course._id %>"
+              class="btn btn-info btn-sm icon icon-left me-2 rounded-3"
+            >
+              <i class="far fa-edit"></i>
+            </a>
+            <form method="POST" action="/guru/mapel?_method=DELETE">
+              <input type="hidden" name="_id" value="<%= course._id %>" />
+              <button
+                onclick="return confirm('Yakin Untuk Menghapus?')"
+                class="btn btn-danger btn-sm icon icon-left rounded-3"
+                type="submit"
+              >
+                <i class="far fa-times-circle"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="row ms-sm-3 mt-2">
+          <% if (course.deskripsi != "" ) { %>
+          <div
+            class="card border border-primary border-1 mt-2 mb-4 p-3"
+            style="width: 95%"
+          >
+            <%= course.deskripsi %>
+          </div>
+          <% } %> <% course.resources.forEach(resource => { %>
+          <div class="row">
+            <a
+              class="mb-2"
+              style="width: fit-content"
+              href="<%= resource.file %>"
+              ><h5 class="text-secondary link-course">
+                <i class="fas fa-file-alt me-3"></i><%= resource.nama %>
+              </h5></a
+            >
+          </div>
+          <% }) %> <% if (typeof course.attendance != 'undefined') { %>
+          <div class="row">
+            <a
+              class="mb-2"
+              style="width: fit-content"
+              href="/guru/kehadiran/<%= course.attendance._id %>"
+              ><h5 class="text-secondary link-course">
+                <i class="bi bi-person-lines-fill me-3"></i>Presensi
+              </h5></a
+            >
+          </div>
+          <% } %> <% if (typeof course.tugas != 'undefined') { %>
+          <div class="row">
+            <a
+              class="mb-2"
+              style="width: fit-content"
+              href="/guru/tugas/<%= course.tugas._id %>"
+              ><h5 class="text-secondary link-course">
+                <i class="fas fa-tasks me-3"></i><%= course.tugas.nama_tugas %>
+              </h5></a
+            >
+          </div>
+          <% } %>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<script src="/static/assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
+<script src="/static/assets/js/pages/simple-datatables.js"></script>
+
+<script src="/static/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
+<% if (msg.length !== 0) { %>
+<script>
+  Swal.fire({
+    icon: "success",
+    title: "Sukses",
+    text: "<%= msg %>",
+  });
+</script>
+<% } %> <% if (typeof errors != 'undefined') { %>
+<script>
+  Swal.fire({
+    icon: "error",
+    title: "Gagal",
+    text: "Gagal Menambahkan Data, Periksa Inputan Anda",
+  });
+</script>
+<% } %> <% if (typeof editErrors != 'undefined') { %>
+<script>
+  Swal.fire({
+    icon: "error",
+    title: "Gagal",
+    text: "Gagal Mengedit Data, Periksa Inputan Anda",
+  });
+</script>
+<% } %>

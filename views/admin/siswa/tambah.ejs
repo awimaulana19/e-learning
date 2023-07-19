@@ -1,0 +1,103 @@
+<div
+  class="modal fade text-left"
+  id="default"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel1"
+  aria-hidden="true"
+>
+  <form action="/admin/siswa" method="POST">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel1">Tambah Data</h5>
+          <button
+            type="button"
+            class="close rounded-pill"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i data-feather="x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <% if (typeof errors != 'undefined') { %>
+          <div class="alert alert-danger" role="alert">
+            <% errors.forEach(item => { %>
+            <p>- <%= item.msg %></p>
+            <% }) %>
+          </div>
+          <% } %>
+          <div class="mb-3">
+            <label for="nama" class="form-label">Nama Siswa</label>
+            <input type="text" class="form-control" name="nama" id="nama" />
+          </div>
+          <div class="mb-3">
+            <label for="username" class="form-label">NIS</label>
+            <input
+              type="text"
+              class="form-control"
+              name="username"
+              id="username"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" />
+          </div>
+          <div class="mb-3">
+            <label for="tingkatan" class="form-label">Tingkatan</label>
+            <select class="form-select" name="tingkatan" id="tingkatan">
+              <option value="" selected>Pilh Tingkatan</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+          <input type="hidden" name="roles" value="siswa" />
+          <input type="hidden" name="password" value="default123" />
+          <% if (jurusan === 'MIA') { %>           
+            <input type="hidden" name="jurusan" value="MIA" />
+          <% } %>
+          <% if (jurusan === 'IIS') { %>           
+            <input type="hidden" name="jurusan" value="IIS" />
+          <% } %>
+
+          <% if (title === 'Siswa X MIA') { %>           
+            <input type="hidden" name="kelas" value="X" />
+          <% } %>
+          <% if (title === 'Siswa XI MIA') { %>           
+            <input type="hidden" name="kelas" value="XI" />
+          <% } %>
+          <% if (title === 'Siswa XII MIA') { %>           
+            <input type="hidden" name="kelas" value="XII" />
+          <% } %>
+
+          <% if (title === 'Siswa X IIS') { %>           
+            <input type="hidden" name="kelas" value="X" />
+          <% } %>
+          <% if (title === 'Siswa XI IIS') { %>           
+            <input type="hidden" name="kelas" value="XI" />
+          <% } %>
+          <% if (title === 'Siswa XII IIS') { %>           
+            <input type="hidden" name="kelas" value="XII" />
+          <% } %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" data-bs-dismiss="modal">
+            <i class="bx bx-x d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Batal</span>
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary ml-1"
+          >
+            <i class="bx bx-check d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Tambah</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

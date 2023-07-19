@@ -1,0 +1,734 @@
+<link
+  rel="stylesheet"
+  href="/static/assets/extensions/sweetalert2/sweetalert2.min.css"
+/>
+
+<style>
+  .no-hover:hover {
+    color: white;
+  }
+</style>
+
+<section class="row mt-3">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title" style="margin-bottom: -10px">
+          Edit Pertemuan
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <form
+            class="form form-horizontal"
+            action="/guru/course?_method=PUT"
+            method="POST"
+          >
+            <div class="form-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="nama">Nama Pertemuan</label>
+                </div>
+                <div class="col-md-9 mb-4">
+                  <input
+                    type="text"
+                    id="nama"
+                    class="form-control"
+                    name="nama"
+                    value="<%= course.nama %>"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <label for="nama">Deskripsi</label>
+                </div>
+                <div class="col-md-9 mb-4">
+                  <textarea
+                    name="deskripsi"
+                    id="deskripsi"
+                    class="form-control"
+                    cols="30"
+                    rows="5"
+                  >
+<%= course.deskripsi %></textarea
+                  >
+                </div>
+                <input
+                  type="hidden"
+                  name="courseId"
+                  value="<%= course._id %>"
+                />
+                <div class="col-sm-12 d-flex justify-content-end">
+                  <a
+                    href="/guru/mapel/<%= course.mapel %>"
+                    class="btn btn-danger me-2 mb-4 mt-1"
+                  >
+                    Batal
+                  </a>
+                  <button type="submit" class="btn btn-primary mb-4 mt-1">
+                    Submit
+                  </button>
+                </div>
+                <hr width="95%" class="me-auto ms-auto mb-4" />
+                <div class="col-md-3">
+                  <div class="card-title mb-4">Edit Materi</div>
+                </div>
+                <div class="col-md-9 mb-4">
+                  <button
+                    type="button"
+                    class="badge bg-primary d-flex justify-content-center align-items-center me-2 border-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#tambahMateri"
+                  >
+                    Tambah
+                  </button>
+                </div>
+                <% course.resources.forEach(resource => { %>
+                <div class="col-md-3">
+                  <label><%= resource.nama %></label>
+                </div>
+                <div class="col-md-9 mb-4">
+                  <div class="d-flex">
+                    <button
+                      type="button"
+                      class="badge bg-success d-flex justify-content-center align-items-center me-2 border-0"
+                      data-bs-toggle="modal"
+                      data-bs-target="#materi<%= resource._id %>"
+                    >
+                      Edit
+                    </button>
+                    <a
+                      href="<%= resource.file %>"
+                      class="no-hover badge bg-secondary d-flex justify-content-center align-items-center me-2 border-0"
+                    >
+                      Lihat
+                    </a>
+                    <a
+                      href="/guru/delete-resource/<%= resource._id %>"
+                      onclick="return confirm('Yakin Untuk Menghapus Data?')"
+                      class="no-hover badge bg-danger d-flex justify-content-center align-items-center border-0"
+                    >
+                      Hapus
+                    </a>
+                  </div>
+                </div>
+                <% }) %>
+                <hr width="95%" class="me-auto ms-auto mb-4" />
+                <div class="col-md-3">
+                  <div class="card-title mb-4">Edit Presensi</div>
+                </div>
+                <div class="col-md-9 mb-4">
+                  <% if (typeof course.attendance != 'undefined') { %>
+                  <div class="d-flex">
+                    <button
+                      type="button"
+                      class="badge bg-success d-flex justify-content-center align-items-center me-2 border-0"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editKehadiran"
+                    >
+                      Edit
+                    </button>
+                    <a
+                      href="/guru/kehadiran/<%= course.attendance._id %>"
+                      class="no-hover badge bg-secondary d-flex justify-content-center align-items-center me-2 border-0"
+                    >
+                      Lihat
+                    </a>
+                    <a
+                      href="/guru/delete-kehadiran/<%= course.attendance._id %>"
+                      onclick="return confirm('Yakin Untuk Menghapus Data?')"
+                      class="no-hover badge bg-danger d-flex justify-content-center align-items-center border-0"
+                    >
+                      Hapus
+                    </a>
+                  </div>
+                  <% } else { %>
+                  <button
+                    type="button"
+                    class="badge bg-primary d-flex justify-content-center align-items-center me-2 border-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#tambahKehadiran"
+                  >
+                    Tambah
+                  </button>
+                  <% } %>
+                </div>
+                <hr width="95%" class="me-auto ms-auto mb-4" />
+                <div class="col-md-3">
+                  <div class="card-title mb-4">Edit Tugas</div>
+                </div>
+                <div class="col-md-9 mb-4">
+                  <% if (typeof course.tugas != 'undefined') { %>
+                  <div class="d-flex">
+                    <button
+                      type="button"
+                      class="badge bg-success d-flex justify-content-center align-items-center me-2 border-0"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editTugas"
+                    >
+                      Edit
+                    </button>
+                    <a
+                      href="/guru/tugas/<%= course.tugas._id %>"
+                      class="no-hover badge bg-secondary d-flex justify-content-center align-items-center me-2 border-0"
+                    >
+                      Lihat
+                    </a>
+                    <a
+                      href="/guru/delete-tugas/<%= course.tugas._id %>"
+                      onclick="return confirm('Yakin Untuk Menghapus Data?')"
+                      class="no-hover badge bg-danger d-flex justify-content-center align-items-center border-0"
+                    >
+                      Hapus
+                    </a>
+                  </div>
+                  <% } else { %>
+                  <button
+                    type="button"
+                    class="badge bg-primary d-flex justify-content-center align-items-center me-2 border-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#tambahTugas"
+                  >
+                    Tambah
+                  </button>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div
+  class="modal fade text-left"
+  id="tambahMateri"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel1"
+  aria-hidden="true"
+>
+  <form enctype="multipart/form-data" action="/guru/resource" method="POST">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel1">Tambah Data</h5>
+          <button
+            type="button"
+            class="close rounded-pill"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i data-feather="x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nama" class="form-label">Nama Materi</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nama"
+              id="nama"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="file" class="form-label">Materi</label>
+            <input
+              type="file"
+              class="form-control"
+              name="file"
+              id="file"
+              required
+            />
+          </div>
+          <input type="hidden" name="course" value="<%= course._id %>" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" data-bs-dismiss="modal">
+            <i class="bx bx-x d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Batal</span>
+          </button>
+          <button type="submit" class="btn btn-primary ml-1">
+            <i class="bx bx-check d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Tambah</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Modal edit -->
+<% course.resources.forEach(resource => { %>
+<div
+  class="modal fade text-left"
+  id="materi<%= resource._id %>"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel1"
+  aria-hidden="true"
+>
+  <form
+    enctype="multipart/form-data"
+    action="/guru/resource?_method=PUT"
+    method="POST"
+  >
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel1">Edit Data</h5>
+          <button
+            type="button"
+            class="close rounded-pill"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i data-feather="x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nama" class="form-label">Nama Materi</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nama"
+              id="nama"
+              value="<%= resource.nama %>"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="file" class="form-label">Materi</label>
+            <input type="file" class="form-control" name="file" id="file" />
+          </div>
+          <input type="hidden" name="_id" value="<%= resource._id %>" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" data-bs-dismiss="modal">
+            <i class="bx bx-x d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Batal</span>
+          </button>
+          <button type="submit" class="btn btn-success ml-1">
+            <i class="bx bx-check d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Edit</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<% }) %>
+<!-- Modal edit akhir -->
+
+<% if (typeof course.attendance != 'undefined') { %>
+<div
+  class="modal fade text-left"
+  id="editKehadiran"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel1"
+  aria-hidden="true"
+>
+  <form action="/guru/kehadiran?_method=PUT" method="POST">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel1">Edit Data</h5>
+          <button
+            type="button"
+            class="close rounded-pill"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i data-feather="x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="password_absensi" class="form-label"
+              >Password Absensi</label
+            ><input
+              type="password"
+              class="form-control"
+              name="password_absensi"
+              id="password_absensi"
+              required="true"
+              value="<%= course.attendance.password %>"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="deskripsi_absensi" class="form-label"
+              >Deskripsi (Opsional)</label
+            ><textarea
+              class="form-control"
+              name="deskripsi_absensi"
+              id="deskripsi_absensi"
+              cols="30"
+              rows="5"
+            >
+<%= course.attendance.deskripsi %></textarea
+            >
+          </div>
+          <div class="mb-3">
+            <label for="batas_tanggalAbsensi" class="form-label"
+              >Batas Absensi</label
+            >
+            <div class="row">
+              <div class="col-6">
+                <input
+                  type="date"
+                  class="form-control"
+                  name="batas_tanggalAbsensi"
+                  id="batas_tanggalAbsensi"
+                  value="<%= course.attendance.batas_tanggal %>"
+                  required="true"
+                />
+              </div>
+              <div class="col-6">
+                <input
+                  type="time"
+                  class="form-control"
+                  name="batas_jamAbsensi"
+                  id="batas_jamAbsensi"
+                  value="<%= course.attendance.batas_jam %>"
+                  required="true"
+                />
+              </div>
+            </div>
+          </div>
+          <input
+            type="hidden"
+            name="attendanceId"
+            value="<%= course.attendance._id %>"
+          />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" data-bs-dismiss="modal">
+            <i class="bx bx-x d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Batal</span>
+          </button>
+          <button type="submit" class="btn btn-success ml-1">
+            <i class="bx bx-check d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Edit</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<% } else { %>
+<div
+  class="modal fade text-left"
+  id="tambahKehadiran"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel1"
+  aria-hidden="true"
+>
+  <form action="/guru/kehadiran" method="POST">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel1">Tambah Data</h5>
+          <button
+            type="button"
+            class="close rounded-pill"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i data-feather="x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="password_absensi" class="form-label"
+              >Password Presensi</label
+            ><input
+              type="password"
+              class="form-control"
+              name="password_absensi"
+              id="password_absensi"
+              required="true"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="deskripsi_absensi" class="form-label"
+              >Deskripsi (Opsional)</label
+            ><textarea
+              class="form-control"
+              name="deskripsi_absensi"
+              id="deskripsi_absensi"
+              cols="30"
+              rows="5"
+            ></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="batas_tanggalAbsensi" class="form-label"
+              >Batas Presensi</label
+            >
+            <div class="row">
+              <div class="col-6">
+                <input
+                  type="date"
+                  class="form-control"
+                  name="batas_tanggalAbsensi"
+                  id="batas_tanggalAbsensi"
+                  required="true"
+                />
+              </div>
+              <div class="col-6">
+                <input
+                  type="time"
+                  class="form-control"
+                  name="batas_jamAbsensi"
+                  id="batas_jamAbsensi"
+                  required="true"
+                />
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="id_course" value="<%= course._id %>" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" data-bs-dismiss="modal">
+            <i class="bx bx-x d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Batal</span>
+          </button>
+          <button type="submit" class="btn btn-primary ml-1">
+            <i class="bx bx-check d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Tambah</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<% } %> <% if (typeof course.tugas != 'undefined') { %>
+<div
+  class="modal fade text-left"
+  id="editTugas"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel1"
+  aria-hidden="true"
+>
+  <form
+    enctype="multipart/form-data"
+    action="/guru/tugas?_method=PUT"
+    method="POST"
+  >
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel1">Edit Data</h5>
+          <button
+            type="button"
+            class="close rounded-pill"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i data-feather="x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nama_tugas" class="form-label">Nama Tugas</label
+            ><input
+              type="text"
+              class="form-control"
+              name="nama_tugas"
+              id="nama_tugas"
+              value="<%= course.tugas.nama_tugas %>"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="tugas" class="form-label">Tugas</label
+            ><textarea
+              class="form-control"
+              name="tugas"
+              id="tugas"
+              cols="30"
+              rows="5"
+              required="true"
+            >
+<%= course.tugas.tugas %></textarea
+            >
+          </div>
+          <div class="mb-3">
+            <label for="file_tugas" class="form-label"
+              >File Tugas (Opsional)</label
+            ><input
+              type="file"
+              class="form-control"
+              name="file_tugas"
+              id="file_tugas"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="batas_tanggal" class="form-label">Batas Waktu</label>
+            <div class="row">
+              <div class="col-6">
+                <input
+                  type="date"
+                  class="form-control"
+                  name="batas_tanggal"
+                  id="batas_tanggal"
+                  value="<%= course.tugas.batas_tanggal%>"
+                  required
+                />
+              </div>
+              <div class="col-6">
+                <input
+                  type="time"
+                  class="form-control"
+                  name="batas_jam"
+                  id="batas_jam"
+                  value="<%= course.tugas.batas_jam %>"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="tugasId" value="<%= course.tugas._id %>" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" data-bs-dismiss="modal">
+            <i class="bx bx-x d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Batal</span>
+          </button>
+          <button type="submit" class="btn btn-success ml-1">
+            <i class="bx bx-check d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Edit</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<% } else { %>
+<div
+  class="modal fade text-left"
+  id="tambahTugas"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel1"
+  aria-hidden="true"
+>
+  <form enctype="multipart/form-data" action="/guru/tugas" method="POST">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel1">Tambah Data</h5>
+          <button
+            type="button"
+            class="close rounded-pill"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i data-feather="x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nama_tugas" class="form-label">Nama Tugas</label
+            ><input
+              type="text"
+              class="form-control"
+              name="nama_tugas"
+              id="nama_tugas"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="tugas" class="form-label">Tugas</label
+            ><textarea
+              class="form-control"
+              name="tugas"
+              id="tugas"
+              cols="30"
+              rows="5"
+              required
+            ></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="file_tugas" class="form-label"
+              >File Tugas (Opsional)</label
+            ><input
+              type="file"
+              class="form-control"
+              name="file_tugas"
+              id="file_tugas"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="batas_tanggal" class="form-label">Batas Waktu</label>
+            <div class="row">
+              <div class="col-6">
+                <input
+                  type="date"
+                  class="form-control"
+                  name="batas_tanggal"
+                  id="batas_tanggal"
+                  required
+                />
+              </div>
+              <div class="col-6">
+                <input
+                  type="time"
+                  class="form-control"
+                  name="batas_jam"
+                  id="batas_jam"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="course_id" value="<%= course._id %>" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" data-bs-dismiss="modal">
+            <i class="bx bx-x d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Batal</span>
+          </button>
+          <button type="submit" class="btn btn-primary ml-1">
+            <i class="bx bx-check d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Tambah</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<% } %>
+
+<script src="/static/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
+
+<% if (msg.length !== 0) { %>
+<script>
+  Swal.fire({
+    icon: "success",
+    title: "Sukses",
+    text: "<%= msg %>",
+  });
+</script>
+<% } %> <% if (typeof errors != 'undefined') { %>
+<script>
+  Swal.fire({
+    icon: "error",
+    title: "Gagal",
+    text: "Gagal Menambahkan Data, Periksa Inputan Anda",
+  });
+</script>
+<% } %> <% if (typeof editErrors != 'undefined') { %>
+<script>
+  Swal.fire({
+    icon: "error",
+    title: "Gagal",
+    text: "Gagal Mengedit Data, Periksa Inputan Anda",
+  });
+</script>
+<% } %>

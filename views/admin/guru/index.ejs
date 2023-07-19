@@ -1,0 +1,243 @@
+<link
+  rel="stylesheet"
+  href="/static/assets/extensions/simple-datatables/style.css"
+/>
+<link rel="stylesheet" href="/static/assets/css/pages/simple-datatables.css" />
+<link
+  rel="stylesheet"
+  href="/static/assets/extensions/sweetalert2/sweetalert2.min.css"
+/>
+<section class="section mt-3">
+  <div class="card">
+    <div class="d-flex justify-content-between" style="margin-bottom: -20px">
+      <div class="card-header">Data Guru</div>
+      <button
+        type="button"
+        class="btn btn-primary mt-lg-4 me-lg-5 me-4 mt-3"
+        data-bs-toggle="modal"
+        data-bs-target="#default"
+        style="height: 40px"
+      >
+        Tambah Data
+      </button>
+      <%- include('tambah') %>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped" id="table1">
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% user.forEach(item => { %>
+          <tr>
+            <td><%= item.nama %></td>
+            <td><%= item.username %></td>
+            <td><%= item.email %></td>
+            <td>
+              <div class="d-flex">
+                <button
+                  type="button"
+                  class="btn btn-info btn-sm icon icon-left me-1 rounded-3"
+                  data-bs-toggle="modal"
+                  data-bs-target="#edit<%= item._id %>"
+                >
+                  <i class="far fa-edit me-sm-1"></i>Edit
+                </button>
+
+                <!-- Modal edit -->
+                <div
+                  class="modal fade text-left"
+                  id="edit<%= item._id %>"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="myModalLabel1"
+                  aria-hidden="true"
+                >
+                  <form action="/admin/guru?_method=PUT" method="POST">
+                    <div
+                      class="modal-dialog modal-dialog-scrollable"
+                      role="document"
+                    >
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="myModalLabel1">
+                            Edit Data
+                          </h5>
+                          <button
+                            type="button"
+                            class="close rounded-pill"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          >
+                            <i data-feather="x"></i>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <% if (typeof editErrors != 'undefined') { %>
+                          <div class="alert alert-danger" role="alert">
+                            <% editErrors.forEach(error => { %>
+                            <p>- <%= error.msg %></p>
+                            <% }) %>
+                          </div>
+                          <% } %>
+                          <div class="mb-3">
+                            <label for="nama" class="form-label"
+                              >Nama Guru</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="nama"
+                              id="nama"
+                              value="<%= item.nama %>"
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label for="username" class="form-label"
+                              >Username</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="username"
+                              id="username"
+                              value="<%= item.username %>"
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label for="password" class="form-label"
+                              >Password</label
+                            >
+                            <input
+                              type="password"
+                              class="form-control"
+                              id="password"
+                              name="password"
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input
+                              type="email"
+                              class="form-control"
+                              name="email"
+                              id="email"
+                              value="<%= item.email %>"
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label for="jk" class="form-label"
+                              >Jenis Kelamin</label
+                            >
+                            <select class="form-select" name="jk" id="jk">
+                              <option value="" selected>
+                                Pilh Jenis Kelamin
+                              </option>
+                              <option <% if (item.jk == "Laki Laki") { %> selected <% } %> value="Laki Laki">Laki Laki</option>
+                              <option <% if (item.jk == "Perempuan") { %> selected <% } %> value="Perempuan">Perempuan</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="alamat" class="form-label"
+                              >Alamat</label
+                            >
+                            <textarea
+                              class="form-control"
+                              name="alamat"
+                              id="alamat"
+                              cols="30"
+                              rows="5"
+                            ><%= item.alamat %></textarea>
+                          </div>
+                          <div class="mb-3">
+                            <label for="noTelp" class="form-label"
+                              >Nomor Telepon</label
+                            >
+                            <input
+                              type="number"
+                              class="form-control"
+                              name="noTelp"
+                              id="noTelp"
+                              value="<%= item.noTelp %>"
+                            />
+                          </div>
+                          <input
+                            type="hidden"
+                            name="_id"
+                            value="<%= item._id %>"
+                          />
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn"
+                            data-bs-dismiss="modal"
+                          >
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Batal</span>
+                          </button>
+                          <button type="submit" class="btn btn-primary ml-1">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Edit</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <!-- Modal edit akhir -->
+
+                <form method="POST" action="/admin/guru?_method=DELETE">
+                  <input type="hidden" name="_id" value="<%= item._id %>" />
+                  <button
+                    onclick="return confirm('Yakin Untuk Menghapus?')"
+                    class="btn btn-danger btn-sm icon icon-left rounded-3"
+                    type="submit"
+                  >
+                    <i class="far fa-times-circle me-sm-1"></i>Hapus
+                  </button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script src="/static/assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
+<script src="/static/assets/js/pages/simple-datatables.js"></script>
+
+<script src="/static/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
+<% if (msg.length !== 0) { %>
+<script>
+  Swal.fire({
+    icon: "success",
+    title: "Sukses",
+    text: "<%= msg %>",
+  });
+</script>
+<% } %> <% if (typeof errors != 'undefined') { %>
+<script>
+  Swal.fire({
+    icon: "error",
+    title: "Gagal",
+    text: "Gagal Menambahkan Data, Periksa Inputan Anda",
+  });
+</script>
+<% } %> <% if (typeof editErrors != 'undefined') { %>
+<script>
+  Swal.fire({
+    icon: "error",
+    title: "Gagal",
+    text: "Gagal Mengedit Data, Periksa Inputan Anda",
+  });
+</script>
+<% } %>

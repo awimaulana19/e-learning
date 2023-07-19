@@ -1,0 +1,172 @@
+<div id="sidebar" class="active">
+  <div class="sidebar-wrapper active">
+    <div class="sidebar-header position-relative">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="logo">
+          <a href="/"
+            ><img
+              src="/static/image/logo.png"
+              alt="logo"
+              style="width: 170px; height: 70px; padding-top: 5px"
+          /></a>
+        </div>
+        <div class="theme-toggle d-flex gap-2 align-items-center mt-2">
+          <div class="form-check form-switch fs-6">
+            <input
+              class="form-check-input me-0"
+              type="hidden"
+              id="toggle-dark"
+            />
+          </div>
+        </div>
+        <div class="sidebar-toggler x">
+          <a href="#" class="sidebar-hide d-xl-none d-block"
+            ><i class="bi bi-x bi-middle"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <% if (auth.roles == "admin") { %>       
+        <ul class="menu">
+          <li class="sidebar-title">Menu</li>
+  
+          <li
+            class="sidebar-item <% if (title === 'Dashboard') { %> active <% } %>"
+          >
+            <a href="/admin/dashboard" class="sidebar-link">
+              <i class="bi bi-grid-fill"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+  
+          <li class="sidebar-title">Data Guru</li>
+  
+          <li class="sidebar-item <% if (title === 'Guru') { %> active <% } %>">
+            <a href="/admin/guru" class="sidebar-link">
+              <i class="fas fa-chalkboard-teacher"></i>
+              <span>Guru</span>
+            </a>
+          </li>
+  
+          <li class="sidebar-title">Mata Pelajaran</li>
+  
+          <li class="sidebar-item has-sub <% if (typeof jurusan != 'undefined' && jurusan === 'Mapel MIA') { %> active <% } %>">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-book"></i>
+              <span>MIA</span>
+            </a>
+            <ul class="submenu">
+              <li class="submenu-item <% if (title === 'Mata Pelajaran X MIA') { %> active <% } %>">
+                <a href="/admin/mapel/xmia">Kelas 10</a>
+              </li>
+              <li class="submenu-item <% if (title === 'Mata Pelajaran XI MIA') { %> active <% } %>">
+                <a href="/admin/mapel/ximia">Kelas 11</a>
+              </li>
+              <li class="submenu-item <% if (title === 'Mata Pelajaran XII MIA') { %> active <% } %>">
+                <a href="/admin/mapel/xiimia">Kelas 12</a>
+              </li>
+            </ul>
+          </li>
+  
+          <li class="sidebar-item has-sub <% if (typeof jurusan != 'undefined' && jurusan === 'Mapel IIS') { %> active <% } %>">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-book"></i>
+              <span>IIS</span>
+            </a>
+            <ul class="submenu">
+              <li class="submenu-item <% if (title === 'Mata Pelajaran X IIS') { %> active <% } %>">
+                <a href="/admin/mapel/xiis">Kelas 10</a>
+              </li>
+              <li class="submenu-item <% if (title === 'Mata Pelajaran XI IIS') { %> active <% } %>">
+                <a href="/admin/mapel/xiiis">Kelas 11</a>
+              </li>
+              <li class="submenu-item <% if (title === 'Mata Pelajaran XII IIS') { %> active <% } %>">
+                <a href="/admin/mapel/xiiiis">Kelas 12</a>
+              </li>
+            </ul>
+          </li>
+  
+          <li class="sidebar-title">Data Siswa</li>
+  
+          <li
+            class="sidebar-item has-sub <% if (typeof jurusan != 'undefined' && jurusan === 'MIA') { %> active <% } %>"
+          >
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-graduation-cap"></i>
+              <span>MIA</span>
+            </a>
+            <ul class="submenu">
+              <li
+                class="submenu-item <% if (title === 'Siswa X MIA') { %> active <% } %>"
+              >
+                <a href="/admin/siswa/xmia">Kelas 10</a>
+              </li>
+              <li
+                class="submenu-item <% if (title === 'Siswa XI MIA') { %> active <% } %>"
+              >
+                <a href="/admin/siswa/ximia">Kelas 11</a>
+              </li>
+              <li
+                class="submenu-item <% if (title === 'Siswa XII MIA') { %> active <% } %>"
+              >
+                <a href="/admin/siswa/xiimia">Kelas 12</a>
+              </li>
+            </ul>
+          </li>
+  
+          <li
+            class="sidebar-item has-sub <% if (typeof jurusan != 'undefined' && jurusan === 'IIS') { %> active <% } %>"
+          >
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-graduation-cap"></i>
+              <span>IIS</span>
+            </a>
+            <ul class="submenu">
+              <li
+                class="submenu-item <% if (title === 'Siswa X IIS') { %> active <% } %>"
+              >
+                <a href="/admin/siswa/xiis">Kelas 10</a>
+              </li>
+              <li
+                class="submenu-item <% if (title === 'Siswa XI IIS') { %> active <% } %>"
+              >
+                <a href="/admin/siswa/xiiis">Kelas 11</a>
+              </li>
+              <li
+                class="submenu-item <% if (title === 'Siswa XII IIS') { %> active <% } %>"
+              >
+                <a href="/admin/siswa/xiiiis">Kelas 12</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      <% } %>
+      <% if (auth.roles == "guru") { %>       
+        <ul class="menu">
+          <li class="sidebar-title">Menu</li>
+          <li
+            class="sidebar-item <% if (title === 'Dashboard') { %> active <% } %>"
+          >
+            <a href="/guru/dashboard" class="sidebar-link">
+              <i class="bi bi-grid-fill"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+
+          <li class="sidebar-title">Mata Pelajaran</li>
+          <% mapels.forEach(pelajaran => { %>           
+            <li
+              class="sidebar-item <% if (typeof mapel != 'undefined' && mapel.id == pelajaran.id) { %> active <% } %>"
+            >
+              <a href="/guru/mapel/<%= pelajaran.id %>" class="sidebar-link">
+                <i class="fas fa-book"></i>
+                <span><%= pelajaran.nama %> - <%= pelajaran.kelas %> <%= pelajaran.jurusan %> <%= pelajaran.tingkatan %></span>
+              </a>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </div>
+  </div>
+</div>

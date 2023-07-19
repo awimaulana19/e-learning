@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+</head>
+
+<body>
+    <div id="app">
+        <%- include('partials/sidebar') %>
+        <div id="main" class='layout-navbar'>
+            <%- include('partials/navbar') %>
+            <div id="main-content">
+
+                <div class="page-heading">
+                    <div class="page-title">
+                        <div class="row">
+                            <div class="col-12 col-md-6 order-md-1 order-last">
+                                <h3><%= title %></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <section class="section">
+                        <%- body %>
+                    </section>
+                </div>
+                <%- include('partials/footer') %>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/assets/js/bootstrap.js"></script>
+    <script src="/static/assets/js/app.js"></script>
+    <script src="/static/assets/js/pages/dashboard.js"></script>
+
+</body>
+
+</html>
