@@ -969,6 +969,7 @@ app.post(
           deskripsi: req.body.deskripsi_absensi,
           password: req.body.password_absensi,
           batas_tanggal: req.body.batas_tanggalAbsensi,
+          jam_absen: req.body.jam_absen,
           batas_jam: req.body.batas_jamAbsensi,
           course: course._id,
         });
@@ -1366,6 +1367,7 @@ app.post("/guru/kehadiran", isGuru, async (req, res) => {
       deskripsi: req.body.deskripsi_absensi,
       password: req.body.password_absensi,
       batas_tanggal: req.body.batas_tanggalAbsensi,
+      jam_absen: req.body.jam_absen,
       batas_jam: req.body.batas_jamAbsensi,
       course: course._id,
     });
@@ -1392,6 +1394,7 @@ app.put("/guru/kehadiran", isGuru, async (req, res) => {
         deskripsi: req.body.deskripsi_absensi,
         password: req.body.password_absensi,
         batas_tanggal: req.body.batas_tanggalAbsensi,
+        jam_absen: req.body.jam_absen,
         batas_jam: req.body.batas_jamAbsensi,
       },
     }

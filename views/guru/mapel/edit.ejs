@@ -374,7 +374,7 @@
           </div>
           <div class="mb-3">
             <label for="batas_tanggalAbsensi" class="form-label"
-              >Batas Absensi</label
+              >Waktu Presensi</label
             >
             <div class="row">
               <div class="col-6">
@@ -391,13 +391,25 @@
                 <input
                   type="time"
                   class="form-control"
-                  name="batas_jamAbsensi"
-                  id="batas_jamAbsensi"
-                  value="<%= course.attendance.batas_jam %>"
+                  name="jam_absen"
+                  id="jam_absen"
+                  value="<%= course.attendance.jam_absen %>"
                   required="true"
                 />
               </div>
             </div>
+          </div>
+          <div class="mb-3">
+            <label for="batas_jamAbsensi" class="form-label"
+              >Batas Presensi</label
+            ><input
+              type="time"
+              class="form-control"
+              name="batas_jamAbsensi"
+              id="batas_jamAbsensi"
+              value="<%= course.attendance.batas_jam %>"
+              required="true"
+            />
           </div>
           <input
             type="hidden"
@@ -467,7 +479,7 @@
           </div>
           <div class="mb-3">
             <label for="batas_tanggalAbsensi" class="form-label"
-              >Batas Presensi</label
+              >Waktu Presensi</label
             >
             <div class="row">
               <div class="col-6">
@@ -483,12 +495,23 @@
                 <input
                   type="time"
                   class="form-control"
-                  name="batas_jamAbsensi"
-                  id="batas_jamAbsensi"
+                  name="jam_absen"
+                  id="jam_absen"
                   required="true"
                 />
               </div>
             </div>
+          </div>
+          <div class="mb-3">
+            <label for="batas_jamAbsensi" class="form-label"
+              >Batas Presensi</label
+            ><input
+              type="time"
+              class="form-control"
+              name="batas_jamAbsensi"
+              id="batas_jamAbsensi"
+              required="true"
+            />
           </div>
           <input type="hidden" name="id_course" value="<%= course._id %>" />
         </div>

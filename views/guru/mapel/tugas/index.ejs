@@ -80,12 +80,31 @@
             <tr>
               <th class="col-4">Batas Waktu</th>
               <td class="col-8">
+                <% const batasWaktu = new Date(tugas.batas_tanggal); %> <%=
+                batasWaktu.toLocaleDateString('id-ID', { weekday: 'long' }) %>,
                 <%= tugas.batas_tanggal %>, <%= tugas.batas_jam %>
               </td>
             </tr>
             <tr>
               <th class="col-4">Waktu Tersisa</th>
-              <td class="col-8">90 Menit</td>
+              <td class="col-8">
+                <% const waktuTersisa = new Date(tugas.batas_tanggal + ' ' +
+                tugas.batas_jam); %> <% const sekarang = new Date(); %> <% const
+                selisih = waktuTersisa - sekarang; %> <% if (selisih > 0) { %> <%
+                const hari = Math.floor(selisih / (1000 * 60 * 60 * 24)); %> <%
+                const sisaJam = selisih - (hari * 1000 * 60 * 60 * 24); %> <%
+                const jam = Math.floor(sisaJam / (1000 * 60 * 60)); %> <% const
+                sisaMenit = sisaJam - (jam * 1000 * 60 * 60); %> <% const menit
+                = Math.floor(sisaMenit / (1000 * 60)); %> <%= hari %> Hari <%=
+                jam %> Jam <%= menit %> Menit <% } else { %> <% const terlambat
+                = Math.abs(selisih); %> <% const hari = Math.floor(terlambat /
+                (1000 * 60 * 60 * 24)); %> <% const sisaJam = terlambat - (hari
+                * 1000 * 60 * 60 * 24); %> <% const jam = Math.floor(sisaJam /
+                (1000 * 60 * 60)); %> <% const sisaMenit = sisaJam - (jam * 1000
+                * 60 * 60); %> <% const menit = Math.floor(sisaMenit / (1000 *
+                60)); %> Terlambat <%= hari %> Hari <%= jam %> Jam <%= menit %>
+                Menit <% } %>
+              </td>
             </tr>
             <tr>
               <th class="col-4">Pengumpulan Terakhir</th>

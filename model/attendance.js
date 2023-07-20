@@ -10,6 +10,9 @@ const Attendance = mongoose.model("Attendance", {
   batas_tanggal: {
     type: String,
   },
+  jam_absen: {
+    type: String,
+  },
   batas_jam: {
     type: String,
   },

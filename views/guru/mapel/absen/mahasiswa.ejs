@@ -19,6 +19,14 @@
         </a>
       </div>
       <hr width="95%" class="me-auto ms-auto mb-2" />
+      <div class="card-body" style="margin-bottom: -30px">
+        <h5>
+          Waktu Presensi : <% const waktu = new Date(attendance.batas_tanggal);
+          %> <%= waktu.toLocaleDateString('id-ID', { weekday: 'long' }) %>, <%=
+          attendance.batas_tanggal %>, <%= attendance.jam_absen %>
+        </h5>
+        <h5>Batas Presensi : <%= attendance.batas_jam %></h5>
+      </div>
       <div
         class="d-flex align-items-center justify-content-between mt-2"
         style="margin-bottom: -15px"
