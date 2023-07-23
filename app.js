@@ -9,6 +9,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const { Storage } = require("@google-cloud/storage");
+const { format } = require('date-fns');
+const { id } = require('date-fns/locale');
 const multer = require("multer");
 const morgan = require("morgan");
 
@@ -55,7 +57,7 @@ passport.use(
         if (!bcrypt.compareSync(password, user.password)) {
           return done(null, false, { message: "Username atau Password Salah" });
         }
-        if (user.roles != "admin" && user.roles != "guru") {
+        if (user.roles != "admin" && user.roles != "guru" && user.roles != "siswa") {
           return done(null, false, { message: "Username atau Password Salah" });
         }
         return done(null, user);
@@ -155,6 +157,8 @@ app.post(
       res.redirect("/admin/dashboard");
     } else if (req.user.roles === "guru") {
       res.redirect("/guru/dashboard");
+    } else if (req.user.roles === "siswa") {
+      res.redirect("/siswa/dashboard");
     } else {
       res.redirect("/login");
     }
@@ -183,6 +187,17 @@ async function isGuru(req, res, next) {
   if (req.isAuthenticated() && req.user.roles == "guru") {
     const user = req.user;
     const mapel = await Mapel.find({ guru: req.user.id });
+    res.locals.auth = user;
+    res.locals.mapels = mapel;
+    return next();
+  }
+  res.redirect("/login");
+}
+
+async function isSiswa(req, res, next) {
+  if (req.isAuthenticated() && req.user.roles == "siswa") {
+    const user = req.user;
+    const mapel = await Mapel.find({ kelas: req.user.kelas, jurusan: req.user.jurusan, tingkatan: req.user.tingkatan });
     res.locals.auth = user;
     res.locals.mapels = mapel;
     return next();
@@ -941,11 +956,14 @@ app.post(
       }
 
       if (req.body.nama_tugas) {
-        console.log(req.files.file_tugas)
+        console.log(req.files.file_tugas);
 
         let publicUrlTugas;
 
-        if (typeof req.files.file_tugas == 'undefined' || !req.files.file_tugas[0]) {
+        if (
+          typeof req.files.file_tugas == "undefined" ||
+          !req.files.file_tugas[0]
+        ) {
           publicUrlTugas = "";
         } else {
           publicUrlTugas = await uploadFile(req.files.file_tugas[0]);
@@ -1111,7 +1129,7 @@ app.post("/guru/resource", isGuru, upload.single("file"), async (req, res) => {
 
     req.flash("msg", "Materi Berhasil Ditambah");
 
-    res.redirect("/guru/course/" + course.id);
+    res.redirect("/guru/course/" + course._id);
   } catch (error) {
     console.log("Error uploading file:", error);
   }
@@ -1201,7 +1219,7 @@ app.post(
 
       req.flash("msg", "Tugas Berhasil Ditambah");
 
-      res.redirect("/guru/course/" + course.id);
+      res.redirect("/guru/course/" + course._id);
     } catch (error) {
       console.log("Error uploading file:", error);
     }
@@ -1378,7 +1396,7 @@ app.post("/guru/kehadiran", isGuru, async (req, res) => {
 
     req.flash("msg", "Presensi Berhasil Ditambah");
 
-    res.redirect("/guru/course/" + course.id);
+    res.redirect("/guru/course/" + course._id);
   } catch (error) {
     console.log("Error uploading file:", error);
   }
@@ -1526,6 +1544,137 @@ app.post("/guru/absen", isGuru, async (req, res) => {
     req.flash("msg", "Presensi Berhasil Di Absen");
 
     res.redirect("/guru/kehadiran/" + attendance.id);
+  } catch (error) {
+    res.status(404);
+    res.render("error-404", {
+      layout: "error-404",
+    });
+  }
+});
+
+app.get("/siswa/dashboard", isSiswa, async (req, res) => {
+  const pelajaranCount = await Mapel.countDocuments({ kelas: req.user.kelas, jurusan: req.user.jurusan, tingkatan: req.user.tingkatan });
+
+  res.render("siswa/dashboard", {
+    layout: "layouts/main",
+    title: "Dashboard",
+    pelajaranCount,
+  });
+});
+
+app.get("/siswa/mapel/:_id", isSiswa, async (req, res) => {
+  const allMapel = await Mapel.find({ kelas: req.user.kelas, jurusan: req.user.jurusan, tingkatan: req.user.tingkatan });
+
+  let mapel, title;
+  let isFound = false;
+
+  allMapel.forEach((element) => {
+    if (req.params._id == element._id) {
+      mapel = element;
+      title = element.nama;
+      isFound = true;
+    }
+  });
+
+  if (!isFound) {
+    res.status(404);
+    res.render("error-404", {
+      layout: "error-404",
+    });
+  } else {
+    const courses = await Course.find({ mapel: req.params._id })
+      .populate("resources")
+      .populate("attendance")
+      .populate("tugas");
+
+    res.render("siswa/mapel/index", {
+      layout: "layouts/main",
+      title,
+      mapel,
+      courses,
+      msg: req.flash("msg"),
+    });
+  }
+});
+
+app.get("/siswa/tugas/:_id", isSiswa, async (req, res) => {
+  try {
+    const tugas = await Tugas.findOne({ _id: req.params._id }).populate(
+      "course"
+    );
+
+    const mapel = await Mapel.findOne({ _id: tugas.course.mapel });
+
+    const nilai = await Nilai.findOne({
+      user: req.user._id,
+      tugas: tugas._id,
+    });
+
+    res.render("siswa/mapel/tugas/index", {
+      layout: "layouts/main",
+      title: "Tugas",
+      mapel,
+      tugas,
+      nilai,
+      msg: req.flash("msg"),
+    });
+  } catch (error) {
+    res.status(404);
+    res.render("error-404", {
+      layout: "error-404",
+    });
+  }
+});
+
+app.post("/siswa/kumpul", isSiswa, upload.single("file_pengumpulan"), async (req, res) => {
+  try {
+    const tugas = await Tugas.findOne({ _id: req.body.tugas });
+
+    const file = req.file;
+    const publicUrl = await uploadFile(file);
+
+    const waktuPengumpulan = new Date();
+    const formattedWaktuPengumpulan = format(waktuPengumpulan, "EEEE, dd MMMM yyyy, HH:mm", { locale: id });
+
+    if (req.body._id) {
+      const nilai = await Nilai.findOne({ _id: req.body._id });
+      if (nilai) {
+        deleteFileByPublicUrl(nilai.file_pengumpulan);
+        nilai.file_pengumpulan = publicUrl;
+        nilai.waktu_pengumpulan = formattedWaktuPengumpulan;
+        await nilai.save();
+      }
+    } else {
+      const nilaiBaru = new Nilai({
+        user: req.body.user,
+        status_pengumpulan: "Dikumpulkan",
+        waktu_pengumpulan: formattedWaktuPengumpulan,
+        file_pengumpulan: publicUrl,
+        tugas: req.body.tugas,
+      });
+      await nilaiBaru.save();
+    }
+
+    req.flash("msg", "Tugas Berhasil Dikumpulkan");
+
+    res.redirect("/siswa/tugas/" + tugas._id);
+  } catch (error) {
+    console.log("Error uploading file:", error);
+  }
+});
+
+
+app.delete("/siswa/kumpul", isSiswa, async (req, res) => {
+  try {
+    const nilai = await Nilai.findOne({ _id: req.body._id });
+
+    deleteFileByPublicUrl(nilai.file_pengumpulan);
+
+    Nilai.deleteOne({ _id: req.body._id }).then((result) => {
+      req.flash("msg", "Pengumpulan Berhasil Dihapus");
+
+      res.redirect("/siswa/tugas/" + nilai.tugas);
+    });
   } catch (error) {
     res.status(404);
     res.render("error-404", {

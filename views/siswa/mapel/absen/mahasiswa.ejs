@@ -1,0 +1,88 @@
+<link
+  rel="stylesheet"
+  href="/static/assets/extensions/sweetalert2/sweetalert2.min.css"
+/>
+
+<section class="section mt-3">
+  <div class="col-lg-12 col-md-12 mb-4">
+    <div class="card pb-4">
+      <div
+        class="d-flex align-items-center justify-content-between mt-2"
+        style="margin-bottom: -15px"
+      >
+        <h4 class="card-header">Presensi</h4>
+        <a
+          href="/guru/course/<%= attendance.course._id %>"
+          class="btn btn-primary me-lg-5 me-4"
+        >
+          Edit Data
+        </a>
+      </div>
+      <hr width="95%" class="me-auto ms-auto mb-2" />
+      <div class="card-body" style="margin-bottom: -30px">
+        <h5>
+          Waktu Presensi : <% const waktu = new Date(attendance.batas_tanggal);
+          %> <%= waktu.toLocaleDateString('id-ID', { weekday: 'long' }) %>, <%=
+          attendance.batas_tanggal %>, <%= attendance.jam_absen %>
+        </h5>
+        <h5>Batas Presensi : <%= attendance.batas_jam %></h5>
+      </div>
+      <div
+        class="d-flex align-items-center justify-content-between mt-2"
+        style="margin-bottom: -15px"
+      >
+        <h4 class="card-header">Data Siswa</h4>
+        <a
+          href="/guru/absen/<%= attendance._id %>"
+          class="btn btn-primary me-lg-5 me-4"
+        >
+          Absen
+        </a>
+      </div>
+      <div class="card-body">
+        <% if (user.length == 0) { %>
+        <p class="text-center">Data Siswa Tidak Ada</p>
+        <% } else { %>
+        <table class="table table-striped" id="table1">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Email</th>
+              <th>Status Kehadiran</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% user.forEach(item => { %>
+            <tr>
+              <td><%= item.nama %></td>
+              <td><%= item.email %></td>
+              <td>
+                <% const attendanceData = attend.find(a => a.user.toString() ===
+                item._id.toString()); %> <% if (attendanceData) { %> <% if
+                (attendanceData.status_kehadiran === 'Mengikuti') { %> Mengikuti
+                <% } else if (attendanceData.status_kehadiran === 'Izin') { %>
+                Izin <% } else if (attendanceData.status_kehadiran === 'Sakit')
+                { %> Sakit <% } else if (attendanceData.status_kehadiran ===
+                'Alpha') { %> Alpha <% } %> <% } else { %> Belum diabsen <% } %>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% if (msg.length !== 0) { %>
+<script src="/static/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
+
+<script>
+  Swal.fire({
+    icon: "success",
+    title: "Sukses",
+    text: "<%= msg %>",
+  });
+</script>
+<% } %>
