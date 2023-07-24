@@ -27,7 +27,11 @@
               </div>
               <div class="user-img d-flex align-items-center">
                 <div class="avatar avatar-md">
+                  <% if (auth.foto) { %>
+                    <img src="<%= auth.foto %>" />
+                  <% } else { %>
                   <img src="/static/assets/images/faces/1.jpg" />
+                  <% } %>
                 </div>
               </div>
             </div>
@@ -41,10 +45,29 @@
               <h6 class="dropdown-header">Hello, <%= auth.nama %></h6>
             </li>
             <li>
-              <a class="dropdown-item" href="#"
-                ><i class="bi bi-grid-fill me-2"></i> Dashboard</a
-              >
+              <% if (auth.roles == "admin") { %>               
+                <a class="dropdown-item" href="/admin/dashboard"
+                  ><i class="bi bi-grid-fill me-2"></i> Dashboard</a
+                >
+              <% } %>
+              <% if (auth.roles == "guru") { %>               
+                <a class="dropdown-item" href="/guru/dashboard"
+                  ><i class="bi bi-grid-fill me-2"></i> Dashboard</a
+                >
+              <% } %>
+              <% if (auth.roles == "siswa") { %>               
+                <a class="dropdown-item" href="/siswa/dashboard"
+                  ><i class="bi bi-grid-fill me-2"></i> Dashboard</a
+                >
+              <% } %>
             </li>
+            <% if (auth.roles == "siswa") { %>             
+              <li>
+                <a class="dropdown-item" href="/siswa/profile"
+                  ><i class="bi bi-person-fill me-2"></i> Profile</a
+                >
+              </li>
+            <% } %>
             <li>
               <hr class="dropdown-divider" />
             </li>

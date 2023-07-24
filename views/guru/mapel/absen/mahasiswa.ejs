@@ -43,32 +43,35 @@
         <% if (user.length == 0) { %>
         <p class="text-center">Data Siswa Tidak Ada</p>
         <% } else { %>
-        <table class="table table-striped" id="table1">
-          <thead>
-            <tr>
-              <th>Nama</th>
-              <th>Email</th>
-              <th>Status Kehadiran</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% user.forEach(item => { %>
-            <tr>
-              <td><%= item.nama %></td>
-              <td><%= item.email %></td>
-              <td>
-                <% const attendanceData = attend.find(a => a.user.toString() ===
-                item._id.toString()); %> <% if (attendanceData) { %> <% if
-                (attendanceData.status_kehadiran === 'Mengikuti') { %> Mengikuti
-                <% } else if (attendanceData.status_kehadiran === 'Izin') { %>
-                Izin <% } else if (attendanceData.status_kehadiran === 'Sakit')
-                { %> Sakit <% } else if (attendanceData.status_kehadiran ===
-                'Alpha') { %> Alpha <% } %> <% } else { %> Belum diabsen <% } %>
-              </td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-striped" id="table1">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>Status Kehadiran</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% user.forEach(item => { %>
+              <tr>
+                <td><%= item.nama %></td>
+                <td><%= item.email %></td>
+                <td>
+                  <% const attendanceData = attend.find(a => a.user.toString()
+                  === item._id.toString()); %> <% if (attendanceData) { %> <% if
+                  (attendanceData.status_kehadiran === 'Mengikuti') { %>
+                  Mengikuti <% } else if (attendanceData.status_kehadiran ===
+                  'Izin') { %> Izin <% } else if
+                  (attendanceData.status_kehadiran === 'Sakit') { %> Sakit <% }
+                  else if (attendanceData.status_kehadiran === 'Alpha') { %>
+                  Alpha <% } %> <% } else { %> Belum diabsen <% } %>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
         <% } %>
       </div>
     </div>

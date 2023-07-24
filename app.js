@@ -9,8 +9,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const { Storage } = require("@google-cloud/storage");
-const { format } = require('date-fns');
-const { id } = require('date-fns/locale');
+const { format } = require("date-fns");
+const { id } = require("date-fns/locale");
 const multer = require("multer");
 const morgan = require("morgan");
 
@@ -57,7 +57,11 @@ passport.use(
         if (!bcrypt.compareSync(password, user.password)) {
           return done(null, false, { message: "Username atau Password Salah" });
         }
-        if (user.roles != "admin" && user.roles != "guru" && user.roles != "siswa") {
+        if (
+          user.roles != "admin" &&
+          user.roles != "guru" &&
+          user.roles != "siswa"
+        ) {
           return done(null, false, { message: "Username atau Password Salah" });
         }
         return done(null, user);
@@ -197,7 +201,11 @@ async function isGuru(req, res, next) {
 async function isSiswa(req, res, next) {
   if (req.isAuthenticated() && req.user.roles == "siswa") {
     const user = req.user;
-    const mapel = await Mapel.find({ kelas: req.user.kelas, jurusan: req.user.jurusan, tingkatan: req.user.tingkatan });
+    const mapel = await Mapel.find({
+      kelas: req.user.kelas,
+      jurusan: req.user.jurusan,
+      tingkatan: req.user.tingkatan,
+    });
     res.locals.auth = user;
     res.locals.mapels = mapel;
     return next();
@@ -658,7 +666,7 @@ app.post(
   "/admin/siswa",
   [
     check("nama", "Nama Tidak Boleh Kosong").notEmpty(),
-    check("username", "NIS Tidak Boleh Kosong")
+    check("username", "Username/NIS Tidak Boleh Kosong")
       .notEmpty()
       .custom(async (value) => {
         const user = await User.findOne({ username: value });
@@ -748,7 +756,7 @@ app.put(
   "/admin/siswa",
   [
     check("nama", "Nama Tidak Boleh Kosong").notEmpty(),
-    check("username", "NIS Tidak Boleh Kosong")
+    check("username", "Username/NIS Tidak Boleh Kosong")
       .notEmpty()
       .custom(async (value, { req }) => {
         const user = await User.findOne({ username: value });
@@ -1553,7 +1561,11 @@ app.post("/guru/absen", isGuru, async (req, res) => {
 });
 
 app.get("/siswa/dashboard", isSiswa, async (req, res) => {
-  const pelajaranCount = await Mapel.countDocuments({ kelas: req.user.kelas, jurusan: req.user.jurusan, tingkatan: req.user.tingkatan });
+  const pelajaranCount = await Mapel.countDocuments({
+    kelas: req.user.kelas,
+    jurusan: req.user.jurusan,
+    tingkatan: req.user.tingkatan,
+  });
 
   res.render("siswa/dashboard", {
     layout: "layouts/main",
@@ -1563,7 +1575,11 @@ app.get("/siswa/dashboard", isSiswa, async (req, res) => {
 });
 
 app.get("/siswa/mapel/:_id", isSiswa, async (req, res) => {
-  const allMapel = await Mapel.find({ kelas: req.user.kelas, jurusan: req.user.jurusan, tingkatan: req.user.tingkatan });
+  const allMapel = await Mapel.find({
+    kelas: req.user.kelas,
+    jurusan: req.user.jurusan,
+    tingkatan: req.user.tingkatan,
+  });
 
   let mapel, title;
   let isFound = false;
@@ -1626,43 +1642,51 @@ app.get("/siswa/tugas/:_id", isSiswa, async (req, res) => {
   }
 });
 
-app.post("/siswa/kumpul", isSiswa, upload.single("file_pengumpulan"), async (req, res) => {
-  try {
-    const tugas = await Tugas.findOne({ _id: req.body.tugas });
+app.post(
+  "/siswa/kumpul",
+  isSiswa,
+  upload.single("file_pengumpulan"),
+  async (req, res) => {
+    try {
+      const tugas = await Tugas.findOne({ _id: req.body.tugas });
 
-    const file = req.file;
-    const publicUrl = await uploadFile(file);
+      const file = req.file;
+      const publicUrl = await uploadFile(file);
 
-    const waktuPengumpulan = new Date();
-    const formattedWaktuPengumpulan = format(waktuPengumpulan, "EEEE, dd MMMM yyyy, HH:mm", { locale: id });
+      const waktuPengumpulan = new Date();
+      const formattedWaktuPengumpulan = format(
+        waktuPengumpulan,
+        "EEEE, dd MMMM yyyy, HH:mm",
+        { locale: id }
+      );
 
-    if (req.body._id) {
-      const nilai = await Nilai.findOne({ _id: req.body._id });
-      if (nilai) {
-        deleteFileByPublicUrl(nilai.file_pengumpulan);
-        nilai.file_pengumpulan = publicUrl;
-        nilai.waktu_pengumpulan = formattedWaktuPengumpulan;
-        await nilai.save();
+      if (req.body._id) {
+        const nilai = await Nilai.findOne({ _id: req.body._id });
+        if (nilai) {
+          deleteFileByPublicUrl(nilai.file_pengumpulan);
+          nilai.file_pengumpulan = publicUrl;
+          nilai.waktu_pengumpulan = formattedWaktuPengumpulan;
+          await nilai.save();
+        }
+      } else {
+        const nilaiBaru = new Nilai({
+          user: req.body.user,
+          status_pengumpulan: "Dikumpulkan",
+          waktu_pengumpulan: formattedWaktuPengumpulan,
+          file_pengumpulan: publicUrl,
+          tugas: req.body.tugas,
+        });
+        await nilaiBaru.save();
       }
-    } else {
-      const nilaiBaru = new Nilai({
-        user: req.body.user,
-        status_pengumpulan: "Dikumpulkan",
-        waktu_pengumpulan: formattedWaktuPengumpulan,
-        file_pengumpulan: publicUrl,
-        tugas: req.body.tugas,
-      });
-      await nilaiBaru.save();
+
+      req.flash("msg", "Tugas Berhasil Dikumpulkan");
+
+      res.redirect("/siswa/tugas/" + tugas._id);
+    } catch (error) {
+      console.log("Error uploading file:", error);
     }
-
-    req.flash("msg", "Tugas Berhasil Dikumpulkan");
-
-    res.redirect("/siswa/tugas/" + tugas._id);
-  } catch (error) {
-    console.log("Error uploading file:", error);
   }
-});
-
+);
 
 app.delete("/siswa/kumpul", isSiswa, async (req, res) => {
   try {
@@ -1680,6 +1704,165 @@ app.delete("/siswa/kumpul", isSiswa, async (req, res) => {
     res.render("error-404", {
       layout: "error-404",
     });
+  }
+});
+
+app.get("/siswa/kehadiran/:_id", isSiswa, async (req, res) => {
+  try {
+    const attendance = await Attendance.findOne({
+      _id: req.params._id,
+    }).populate("course");
+
+    const mapel = await Mapel.findOne({ _id: attendance.course.mapel });
+
+    const attend = await Attend.findOne({ user: req.user._id });
+
+    res.render("siswa/mapel/absen/index", {
+      layout: "layouts/main",
+      title: "Kehadiran",
+      mapel,
+      attendance,
+      attend,
+      msg: req.flash("msg"),
+      msgGagal: req.flash("msg-gagal"),
+    });
+  } catch (error) {
+    res.status(404);
+    res.render("error-404", {
+      layout: "error-404",
+    });
+  }
+});
+
+app.post("/siswa/absen", isSiswa, async (req, res) => {
+  try {
+    const attendance = await Attendance.findOne({ _id: req.body.attendance });
+
+    if (req.body.password == attendance.password) {
+      const attend = new Attend({
+        user: req.body.user,
+        status_kehadiran: req.body.status_kehadiran,
+        attendance: attendance._id,
+      });
+      await attend.save();
+
+      req.flash("msg", "Berhasil Absen");
+
+      res.redirect("/siswa/kehadiran/" + attendance.id);
+    } else {
+      req.flash("msg-gagal", "Absen Gagal, Password Salah");
+
+      res.redirect("/siswa/kehadiran/" + attendance.id);
+    }
+  } catch (error) {
+    res.status(404);
+    res.render("error-404", {
+      layout: "error-404",
+    });
+  }
+});
+
+app.get("/siswa/profile", isSiswa, (req, res) => {
+  res.render("siswa/profile/index", {
+    layout: "layouts/main",
+    title: "Profile",
+    msg: req.flash("msg"),
+    msgGagal: req.flash("msg-gagal"),
+  });
+});
+
+app.put(
+  "/siswa/profile",
+  isSiswa,
+  upload.single("foto"),
+  [
+    check("jk", "Jenis Kelamin Tidak Boleh Kosong").notEmpty(),
+    check("username", "Username/NIS Tidak Boleh Kosong")
+      .notEmpty()
+      .custom(async (value, { req }) => {
+        const user = await User.findOne({ username: value });
+        const siswa = await User.findOne({ _id: req.body._id });
+
+        if (user && value !== siswa.username) {
+          throw new Error("Username/NIS Sudah Ada");
+        }
+      }),
+    check("email", "Email Tidak Boleh Kosong")
+      .notEmpty()
+      .custom(async (value, { req }) => {
+        const user = await User.findOne({ email: value });
+        const siswa = await User.findOne({ _id: req.body._id });
+
+        if (user && value !== siswa.email) {
+          throw new Error("Email Sudah Ada");
+        }
+      }),
+  ],
+  async (req, res) => {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      res.render("siswa/profile/index", {
+        layout: "layouts/main",
+        title: "Profile",
+        msg: req.flash("msg"),
+        msgGagal: req.flash("msg-gagal"),
+        errors: result.array(),
+      });
+    } else {
+      const user = await User.findOne({ _id: req.body._id });
+
+      if (user.foto) {
+        deleteFileByPublicUrl(user.foto);
+      }
+
+      let publicUrl;
+
+      if (req.file) {
+        const file = req.file;
+        publicUrl = await uploadFile(file);
+      }
+
+      User.updateOne(
+        { _id: req.body._id },
+        {
+          $set: {
+            username: req.body.username,
+            email: req.body.email,
+            jk: req.body.jk,
+            tanggalLahir: req.body.tanggalLahir,
+            foto: publicUrl,
+            noTelp: req.body.noTelp,
+            alamat: req.body.alamat,
+          },
+        }
+      ).then((result) => {
+        req.flash("msg", "Data Berhasil Diupdate");
+        res.redirect("/siswa/profile");
+      });
+    }
+  }
+);
+
+app.put("/siswa/pass", isSiswa, async (req, res) => {
+  const user = await User.findOne({ _id: req.body.user_id });
+
+  if (bcrypt.compareSync(req.body.passwordLama, user.password)) {
+    const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+
+    User.updateOne(
+      { _id: req.body.user_id },
+      {
+        $set: {
+          password: hashedPassword,
+        },
+      }
+    ).then((result) => {
+      req.flash("msg", "Password Berhasil Diganti");
+      res.redirect("/siswa/profile");
+    });    
+  }else{
+    req.flash("msg-gagal", "Ganti Password Gagal, Password Lama Salah");
+    res.redirect("/siswa/profile");
   }
 });
 

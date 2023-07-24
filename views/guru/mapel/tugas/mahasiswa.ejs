@@ -24,42 +24,46 @@
         <% if (user.length == 0) { %>
         <p class="text-center">Data Siswa Tidak Ada</p>
         <% } else { %>
-        <table class="table table-striped" id="table1">
-          <thead>
-            <tr>
-              <th>Nama</th>
-              <th>Status Pengumpulan</th>
-              <th>Nilai</th>
-              <th>Tugas</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% user.forEach(item => { %>
-            <tr>
-              <td><%= item.nama %></td>
-              <td>
-                <% const pengumpulanData = nilai.find(n => n.user.toString() ===
-                item._id.toString()); %> <% if (pengumpulanData) { %> Dikumpulkan <% } else { %> Belum Dikumpulkan <% } %>
-              </td>
-              <td>
-                <% const nilaiData = nilai.find(n => n.user.toString() ===
-                item._id.toString()); %> <% if (nilaiData && typeof nilaiData.penilaian != 'undefined') { %> <%=
-                nilaiData.penilaian %> <% } else { %> Belum Dinilai <% } %>
-              </td>
-              <td>
-                <div class="d-flex">
-                  <a
-                    href="/guru/nilai/<%= tugas._id %>/<%= item._id %>"
-                    class="btn btn-info btn-sm icon icon-left me-1 rounded-3"
-                  >
-                    Lihat
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-striped" id="table1">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Status Pengumpulan</th>
+                <th>Nilai</th>
+                <th>Tugas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% user.forEach(item => { %>
+              <tr>
+                <td><%= item.nama %></td>
+                <td>
+                  <% const pengumpulanData = nilai.find(n => n.user.toString()
+                  === item._id.toString()); %> <% if (pengumpulanData) { %>
+                  Dikumpulkan <% } else { %> Belum Dikumpulkan <% } %>
+                </td>
+                <td>
+                  <% const nilaiData = nilai.find(n => n.user.toString() ===
+                  item._id.toString()); %> <% if (nilaiData && typeof
+                  nilaiData.penilaian != 'undefined') { %> <%=
+                  nilaiData.penilaian %> <% } else { %> Belum Dinilai <% } %>
+                </td>
+                <td>
+                  <div class="d-flex">
+                    <a
+                      href="/guru/nilai/<%= tugas._id %>/<%= item._id %>"
+                      class="btn btn-info btn-sm icon icon-left me-1 rounded-3"
+                    >
+                      Lihat
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
         <% } %>
       </div>
     </div>
