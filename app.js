@@ -12,7 +12,6 @@ const { Storage } = require("@google-cloud/storage");
 const { format } = require("date-fns");
 const { id } = require("date-fns/locale");
 const multer = require("multer");
-const morgan = require("morgan");
 
 require("./utils/db");
 const User = require("./model/user");
@@ -32,8 +31,6 @@ app.use(expressLayouts);
 
 app.use("/static", express.static("public"));
 app.use(express.urlencoded({ extended: true }));
-
-app.use(morgan("dev"));
 
 app.use(cookieParser("secret"));
 app.use(
@@ -141,6 +138,13 @@ async function deleteFileByPublicUrl(publicUrl) {
 }
 
 app.use(methodOverride("_method"));
+
+app.get("/", (req, res) => {
+  res.render("landing-page", {
+    layout: "landing-page",
+    title: "E-Learning",
+  });
+});
 
 app.get("/login", (req, res) => {
   res.render("login", {

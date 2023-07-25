@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>E-Learning</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <!-- Favicon -->
+    <link href="/static/page/img/favicon.ico" rel="icon" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Handlee&family=Nunito&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Flaticon Font -->
+    <link href="/static/page/lib/flaticon/font/flaticon.css" rel="stylesheet" />
+
+    <!-- Libraries Stylesheet -->
+    <link
+      href="/static/page/lib/owlcarousel/assets/owl.carousel.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="/static/page/lib/lightbox/css/lightbox.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/static/page/css/style.css" rel="stylesheet" />
+
+    <style>
+      #logoSMAN{
+        font-size: 25px;
+      }
+      @media (max-width: 600px) {
+        #logoSMAN {
+          font-size: 14px;
+        }
+      }
+    </style>  
+  </head>
+
+  <body>
+    <!-- Navbar Start -->
+    <div class="container-fluid bg-light position-relative shadow">
+      <nav
+        class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0 px-lg-5"
+      >
+        <a
+          id="logoSMAN"
+          href="/"
+          class="navbar-brand font-weight-bold text-secondary"
+        >
+          <img
+            src="/static/assets/images/logo/logo.png"
+            alt="Logo"
+            width="50px"
+            style="margin-right: 10px;"
+          />
+          <span class="text-primary">SMAN 6 LUWU UTARA</span>
+        </a>
+        <button
+          type="button"
+          class="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#navbarCollapse"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarCollapse"
+        >
+          <div
+            class="navbar-nav font-weight-bold py-0"
+            style="margin-right: 40px"
+          >
+            <a href="#" class="nav-item nav-link active">Home</a>
+            <a href="#fitur" class="nav-item nav-link">Fitur</a>
+            <a href="#tentang" class="nav-item nav-link">Tentang</a>
+            <a href="#kontak" class="nav-item nav-link">Kontak</a>
+          </div>
+          <a href="/login" class="btn btn-primary px-4">Login</a>
+        </div>
+      </nav>
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary px-0 px-md-5 mb-5">
+      <div class="row align-items-center px-3">
+        <div class="col-lg-6 text-center text-lg-left">
+          <h4 class="text-white mb-4 mt-5 mt-lg-0">E-Learning</h4>
+          <h1 class="display-3 font-weight-bold text-white">
+            SMAN 6 LUWU UTARA
+          </h1>
+          <p class="text-white mb-4">
+            E-Learning merupakan ruang atau tempat pembelajaran siswa secara
+            online. Dengan model virtual class akan membantu guru dalam mengajar
+            dan memudahkan siswa dalam proses ajar mengajar. Untuk masuk kedalam
+            E-Learning siswa dapat menggunakan akun yang dibuat oleh admin
+            begitupun juga dengan guru
+          </p>
+          <a href="/login" class="btn btn-secondary mt-1 py-3 px-5">Login</a>
+        </div>
+        <div class="col-lg-6 text-center text-lg-right">
+          <img class="img-fluid my-5" src="/static/page/img/sman.png" alt="" />
+        </div>
+      </div>
+    </div>
+    <!-- Header End -->
+
+    <!-- Facilities Start -->
+    <div id="fitur" class="container-fluid pt-5">
+      <div class="container pb-3">
+        <div class="row">
+          <div class="col-md-6 pb-1">
+            <div
+              class="d-flex bg-light shadow-sm border-top rounded mb-4"
+              style="padding: 30px"
+            >
+              <i
+                class="flaticon-031-bell h1 font-weight-normal text-primary mb-3"
+              ></i>
+              <div class="pl-4">
+                <h4>Pertemuan</h4>
+                <p class="m-0">
+                  Pembelajaran modern, daring, dan fleksibel melalui platform
+                  e-learning.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 pb-1">
+            <div
+              class="d-flex bg-light shadow-sm border-top rounded mb-4"
+              style="padding: 30px"
+            >
+              <i
+                class="flaticon-019-pencil h1 font-weight-normal text-primary mb-3"
+              ></i>
+              <div class="pl-4">
+                <h4>Materi</h4>
+                <p class="m-0">
+                  Kurikulum interaktif dan terjangkau, memungkinkan akses luas
+                  pada pendidikan berkualitas.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 pb-1">
+            <div
+              class="d-flex bg-light shadow-sm border-top rounded mb-4"
+              style="padding: 30px"
+            >
+              <i
+                class="flaticon-032-book h1 font-weight-normal text-primary mb-3"
+              ></i>
+              <div class="pl-4">
+                <h4>Presensi</h4>
+                <p class="m-0">
+                  Dipantau online dan mempermudah presensi bagi siswa ke guru.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 pb-1">
+            <div
+              class="d-flex bg-light shadow-sm border-top rounded mb-4"
+              style="padding: 30px"
+            >
+              <i
+                class="flaticon-014-blackboard h1 font-weight-normal text-primary mb-3"
+              ></i>
+              <div class="pl-4">
+                <h4>Tugas</h4>
+                <p class="m-0">
+                  Digital, mudah diakses, dan memfasilitasi penyelesaian tugas
+                  secara online.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Facilities Start -->
+
+    <!-- About Start -->
+    <div id="tentang" class="container-fluid py-5">
+      <div class="container">
+        <div class="row align-items-center justify-content-between">
+          <div class="col-lg-5">
+            <img
+              class="img-fluid rounded mb-5 mb-lg-0"
+              src="/static/page/img/sekolah.jpg"
+              alt="sekolah"
+              width="95%"
+            />
+          </div>
+          <div class="col-lg-7">
+            <p class="section-title pr-5">
+              <span class="pr-2">Tentang</span>
+            </p>
+            <h1 class="mb-4">SMAN 6 LUWU UTARA</h1>
+            <p>
+              SMAN 6 Luwu Utara adalah sebuah sekolah menengah atas yang
+              terletak di Kabupaten Luwu Utara. Sekolah ini memiliki berbagai
+              program pendidikan yang mencakup seluruh aspek keilmuan dan
+              pengembangan potensi siswa
+            </p>
+            <div class="row pt-2 pb-4">
+              <div class="col-6 col-md-4">
+                <img
+                  class="img-fluid rounded"
+                  src="/static/page/img/siswa.webp"
+                  alt="#"
+                />
+              </div>
+              <div class="col-6 col-md-8">
+                <ul class="list-inline m-0">
+                  <li class="py-2 border-top border-bottom">
+                    <i class="fa fa-check text-primary mr-3"></i>Terakreditasi
+                  </li>
+                  <li class="py-2 border-bottom">
+                    <i class="fa fa-check text-primary mr-3"></i>Standar
+                    Kurikulum
+                  </li>
+                  <li class="py-2 border-bottom">
+                    <i class="fa fa-check text-primary mr-3"></i>Kepercayaan
+                    Masyarakat
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- About End -->
+
+    <!-- Footer Start -->
+    <div
+      id="kontak"
+      class="container-fluid bg-secondary text-white mt-5 py-5 px-sm-3 px-md-5"
+    >
+      <div class="row pt-5">
+        <div class="col-lg-3 col-md-6 mb-5">
+          <a
+            href="#"
+            class="navbar-brand font-weight-bold text-primary m-0 mb-4 p-0"
+            style="font-size: 20px; line-height: 40px"
+          >
+            <span class="text-white">SMAN 6 LUWU UTARA</span>
+          </a>
+          <p>
+            E-Learning sebagai aplikasi pembelajaran online berbasis web yang
+            digunakan oleh siswa dan guru dalam ruang lingkup SMAN 6 Luwu Utara.
+          </p>
+          <div class="d-flex justify-content-start mt-4">
+            <a
+              class="btn btn-outline-primary rounded-circle text-center mr-2 px-0"
+              style="width: 38px; height: 38px"
+              href="#"
+              ><i class="fab fa-twitter"></i
+            ></a>
+            <a
+              class="btn btn-outline-primary rounded-circle text-center mr-2 px-0"
+              style="width: 38px; height: 38px"
+              href="#"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a
+              class="btn btn-outline-primary rounded-circle text-center mr-2 px-0"
+              style="width: 38px; height: 38px"
+              href="#"
+              ><i class="fab fa-instagram"></i
+            ></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-5">
+          <h3 class="text-primary mb-4">Hubungi Kami</h3>
+          <div class="d-flex">
+            <h4 class="fa fa-map-marker-alt text-primary"></h4>
+            <div class="pl-3">
+              <h5 class="text-white">Alamat</h5>
+              <p>Tomanasa, Desa Waetuo, Kecamatan Malangke Barat</p>
+            </div>
+          </div>
+          <div class="d-flex">
+            <h4 class="fa fa-envelope text-primary"></h4>
+            <div class="pl-3">
+              <h5 class="text-white">Email</h5>
+              <p>sman6lutra@gmail.com</p>
+            </div>
+          </div>
+          <div class="d-flex">
+            <h4 class="fa fa-phone-alt text-primary"></h4>
+            <div class="pl-3">
+              <h5 class="text-white">Telepon</h5>
+              <p>+6282397032649</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-5">
+          <h3 class="text-primary mb-4">Links</h3>
+          <div class="d-flex flex-column justify-content-start">
+            <a class="text-white mb-2" href="#"
+              ><i class="fa fa-angle-right mr-2"></i>Home</a
+            >
+            <a class="text-white mb-2" href="#fitur"
+              ><i class="fa fa-angle-right mr-2"></i>Fitur</a
+            >
+            <a class="text-white mb-2" href="#tentang"
+              ><i class="fa fa-angle-right mr-2"></i>Tentang</a
+            >
+            <a class="text-white mb-2" href="#kontak"
+              ><i class="fa fa-angle-right mr-2"></i>Kontak</a
+            >
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-5">
+          <h3 class="text-primary mb-4">Hubungi Cepat</h3>
+          <form action="#">
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control border-0 py-4"
+                placeholder="Nama"
+                required="required"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="email"
+                class="form-control border-0 py-4"
+                placeholder="Email"
+                required="required"
+              />
+            </div>
+            <div>
+              <button
+                class="btn btn-primary btn-block border-0 py-3"
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div
+        class="container-fluid pt-5"
+        style="border-top: 1px solid rgba(23, 162, 184, 0.2)"
+      >
+        <p class="m-0 text-center text-white">
+          &copy;
+          <a class="text-primary font-weight-bold" href="#">SMAN 6 LUWU UTARA</a
+          >. All Rights Reserved.
+        </p>
+      </div>
+    </div>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary p-3 back-to-top"
+      ><i class="fa fa-angle-double-up"></i
+    ></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/page/lib/easing/easing.min.js"></script>
+    <script src="/static/page/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/static/page/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="/static/page/lib/lightbox/js/lightbox.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/static/page/js/main.js"></script>
+  </body>
+</html>
