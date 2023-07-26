@@ -29,7 +29,7 @@
         class="d-flex justify-content-between align-items-center card-body"
         style="margin-bottom: -15px"
       >
-        <h4 style="margin: 0;">Status Pengumpulan</h4>
+        <h4 id="textH5" style="margin: 0;">Status Pengumpulan</h4>
         <% if (nilai == null) { %>
         <button
           type="button"
@@ -40,14 +40,14 @@
           Kumpulkan
         </button>
         <% } else { %>
-        <div class="d-flex">
+        <div class="d-flex ms-3 flex-wrap">
           <button
             type="button"
-            class="btn btn-success d-flex justify-content-center align-items-center me-2 border-0"
+            class="btn btn-success d-flex justify-content-center align-items-center me-2 mb-2 border-0"
             data-bs-toggle="modal"
             data-bs-target="#kumpul"
           >
-            Edit Pengumpulan
+            Edit
           </button>
           <form method="POST" action="/siswa/kumpul?_method=DELETE">
             <input type="hidden" name="_id" value="<%= nilai._id %>" />
@@ -188,13 +188,18 @@
           <input type="hidden" name="tugas" value="<%= tugas._id %>" />
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn" data-bs-dismiss="modal">
-            <i class="bx bx-x d-block d-sm-none"></i>
-            <span class="d-none d-sm-block">Batal</span>
+          <button
+            type="button"
+            class="btn btn-danger d-flex justify-content-center align-items-center"
+            data-bs-dismiss="modal"
+          >
+            Batal
           </button>
-          <button type="submit" class="btn btn-primary ml-1">
-            <i class="bx bx-check d-block d-sm-none"></i>
-            <span class="d-none d-sm-block">Kumpulkan</span>
+          <button
+            type="submit"
+            class="btn btn-primary d-flex justify-content-center align-items-center"
+          >
+            Kumpulkan
           </button>
         </div>
       </div>

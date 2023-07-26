@@ -85,7 +85,7 @@ passport.deserializeUser(function (id, done) {
 
 const storage = new Storage({
   projectId: "project-bangkit-awi",
-  keyFilename: "./serviceAccountKey.json",
+  keyFilename: "./utils/serviceAccountKey.json",
 });
 
 const bucketName = "sman6-learning-storage";
