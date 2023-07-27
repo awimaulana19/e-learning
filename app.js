@@ -84,7 +84,7 @@ passport.deserializeUser(function (id, done) {
 });
 
 const storage = new Storage({
-  projectId: "project-bangkit-awi",
+  projectId: "project-latihan-awi",
   keyFilename: "./utils/serviceAccountKey.json",
 });
 
