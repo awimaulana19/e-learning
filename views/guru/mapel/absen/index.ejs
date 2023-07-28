@@ -22,51 +22,51 @@
         />
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-striped" id="table1">
-              <thead>
-                <tr>
-                  <th class="col-5">Nama</th>
-                  <th class="col-7">Status Kehadiran</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% user.forEach(item => { const attendanceData = attend.find(a
-                => a.user.toString() === item._id.toString()); %>
-                <input type="hidden" name="user" value="<%= item._id %>" />
-                <tr>
-                  <td class="col-5"><%= item.nama %></td>
-                  <td class="col-7">
-                    <div class="form-group">
-                      <label class="radio-inline me-1">
-                        <input type="radio" name="status<%= item._id %>"
-                        value="Mengikuti" <% if (attendanceData &&
-                        attendanceData.status_kehadiran === 'Mengikuti') { %>
-                        checked <% } %> /> Mengikuti
-                      </label>
-                      <label class="radio-inline me-1">
-                        <input type="radio" name="status<%= item._id %>"
-                        value="Izin" <% if (attendanceData &&
-                        attendanceData.status_kehadiran === 'Izin') { %> checked
-                        <% } %> /> Izin
-                      </label>
-                      <label class="radio-inline me-1">
-                        <input type="radio" name="status<%= item._id %>"
-                        value="Sakit" <% if (attendanceData &&
-                        attendanceData.status_kehadiran === 'Sakit') { %>
-                        checked <% } %> /> Sakit
-                      </label>
-                      <label class="radio-inline me-1">
-                        <input type="radio" name="status<%= item._id %>"
-                        value="Alpha" <% if (attendanceData &&
-                        attendanceData.status_kehadiran === 'Alpha') { %>
-                        checked <% } %> /> Alpha
-                      </label>
-                    </div>
-                  </td>
-                </tr>
-                <% }) %>
-              </tbody>
-            </table>
+          <table class="table table-striped" id="table1">
+            <thead>
+              <tr>
+                <th class="col-5">Nama</th>
+                <th class="col-7">Status Kehadiran</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% user.forEach(item => { const attendanceData = attend.find(a =>
+              a.user.toString() === item._id.toString()); %>
+              <input type="hidden" name="user" value="<%= item._id %>" />
+              <tr>
+                <td class="col-5"><%= item.nama %></td>
+                <td class="col-7">
+                  <div class="form-group">
+                    <label class="radio-inline me-1">
+                      <input type="radio" name="status<%= item._id %>"
+                      value="Mengikuti" <% if (attendanceData &&
+                      attendanceData.status_kehadiran === 'Mengikuti') { %>
+                      checked <% } %> /> Mengikuti
+                    </label>
+                    <label class="radio-inline me-1">
+                      <input type="radio" name="status<%= item._id %>"
+                      value="Izin" <% if (attendanceData &&
+                      attendanceData.status_kehadiran === 'Izin') { %> checked
+                      <% } %> /> Izin
+                    </label>
+                    <label class="radio-inline me-1">
+                      <input type="radio" name="status<%= item._id %>"
+                      value="Sakit" <% if (attendanceData &&
+                      attendanceData.status_kehadiran === 'Sakit') { %> checked
+                      <% } %> /> Sakit
+                    </label>
+                    <label class="radio-inline me-1">
+                      <input type="radio" name="status<%= item._id %>"
+                      value="Alpha" <% if (attendanceData &&
+                      attendanceData.status_kehadiran === 'Alpha') { %> checked
+                      <% } %> /> Alpha
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
           </div>
           <div class="col-sm-12 d-flex justify-content-end">
             <a
