@@ -183,43 +183,38 @@ app.get("/logout", function (req, res) {
 });
 
 function isAdmin(req, res, next) {
-  // if (req.isAuthenticated() && req.user.roles == "admin") {
-    const user = {
-      nama : "Admin",
-      username : "admin",
-      email : "admin@e-learning.com",
-      roles : "admin"
-    };
+  if (req.isAuthenticated() && req.user.roles == "admin") {
+    const user = req.user;
     res.locals.auth = user;
     return next();
-  // }
-  // res.redirect("/login");
+  }
+  res.redirect("/login");
 }
 
 async function isGuru(req, res, next) {
-  // if (req.isAuthenticated() && req.user.roles == "guru") {
-  //   const user = req.user;
-  //   const mapel = await Mapel.find({ guru: req.user.id });
-  //   res.locals.auth = user;
-  //   res.locals.mapels = mapel;
+  if (req.isAuthenticated() && req.user.roles == "guru") {
+    const user = req.user;
+    const mapel = await Mapel.find({ guru: req.user.id });
+    res.locals.auth = user;
+    res.locals.mapels = mapel;
     return next();
-  // }
-  // res.redirect("/login");
+  }
+  res.redirect("/login");
 }
 
 async function isSiswa(req, res, next) {
-  // if (req.isAuthenticated() && req.user.roles == "siswa") {
-  //   const user = req.user;
-  //   const mapel = await Mapel.find({
-  //     kelas: req.user.kelas,
-  //     jurusan: req.user.jurusan,
-  //     tingkatan: req.user.tingkatan,
-  //   });
-  //   res.locals.auth = user;
-  //   res.locals.mapels = mapel;
+  if (req.isAuthenticated() && req.user.roles == "siswa") {
+    const user = req.user;
+    const mapel = await Mapel.find({
+      kelas: req.user.kelas,
+      jurusan: req.user.jurusan,
+      tingkatan: req.user.tingkatan,
+    });
+    res.locals.auth = user;
+    res.locals.mapels = mapel;
     return next();
-  // }
-  // res.redirect("/login");
+  }
+  res.redirect("/login");
 }
 
 app.get("/admin/dashboard", isAdmin, async (req, res) => {
