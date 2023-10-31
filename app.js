@@ -9,8 +9,8 @@ const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const passport = require("passport");
 
-// const db = 'mongodb+srv://awimaulana19:Awimaulana123@cluster0.lnqkqdg.mongodb.net/e-learning?retryWrites=true&w=majority';
-const db = 'mongodb://127.0.0.1:27017/e-learning';
+const db = 'mongodb+srv://awimaulana19:Awimaulana123@cluster0.lnqkqdg.mongodb.net/e-learning?retryWrites=true&w=majority';
+// const db = 'mongodb://127.0.0.1:27017/e-learning';
 mongoose.connect(db);
 
 const app = express();
