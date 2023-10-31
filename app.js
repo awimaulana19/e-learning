@@ -2,16 +2,12 @@ const express = require("express");
 const router = require("./routes/web.js");
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
-const mongoose = require('mongoose');
 const MongoDBSession = require("connect-mongodb-session")(session);
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const passport = require("passport");
-
-const db = 'mongodb+srv://awimaulana19:Awimaulana123@cluster0.lnqkqdg.mongodb.net/e-learning?retryWrites=true&w=majority';
-// const db = 'mongodb://127.0.0.1:27017/e-learning';
-mongoose.connect(db);
+const { db } = require("./utils/db");
 
 const app = express();
 const port = 3000;
