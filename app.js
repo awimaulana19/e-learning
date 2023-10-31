@@ -23,7 +23,7 @@ const store = new MongoDBSession({
   collection: "sessions",
 });
 
-app.use(cookieParser("secret"));
+app.use(cookieParser("inirahasiaelearning321"));
 
 app.use(
   session({
