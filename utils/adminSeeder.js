@@ -16,7 +16,7 @@ async function seedAdmin() {
 
     if (existingAdmin) {
       console.log("Akun Admin Sudah Ada");
-      return process.exit();;
+      return process.exit();
     }
 
     const hashedPassword = await bcrypt.hash(adminData.password, 10);

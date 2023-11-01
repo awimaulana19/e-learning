@@ -8,7 +8,21 @@ const { uploadFile, deleteFileByPublicUrl } = require("../utils/uploadFile.js");
 const dashboardAdmin = async (req, res) => {
   const siswaCount = await User.countDocuments({ roles: "siswa" });
   const guruCount = await User.countDocuments({ roles: "guru" });
-  const mapelCount = await Mapel.countDocuments();
+  const uniqueMapelCount = await Mapel.aggregate([
+    {
+      $group: {
+        _id: '$nama'
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        count: { $sum: 1 }
+      }
+    }
+  ]);
+  
+  const mapelCount = (uniqueMapelCount.length > 0) ? uniqueMapelCount[0].count : 0;  
 
   res.render("admin/dashboard", {
     layout: "layouts/main",
