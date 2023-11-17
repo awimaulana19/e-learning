@@ -4,8 +4,8 @@ const bcrypt = require("bcrypt");
 
 const adminData = {
   nama: "Admin",
-  username: "admin",
-  password: "admin01",
+  username: process.env.USERNAME_ADMIN,
+  password: process.env.PASSWORD_ADMIN,
   email: "admin@gmail.com",
   roles: "admin",
 };
