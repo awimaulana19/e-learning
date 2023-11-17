@@ -99,8 +99,6 @@ const createCourse = async (req, res) => {
     }
 
     if (req.body.nama_tugas) {
-      console.log(req.files.file_tugas);
-
       let publicUrlTugas;
 
       if (
@@ -193,8 +191,6 @@ const updateCourse = async (req, res) => {
 
 const deleteCourse = async (req, res) => {
   const resources = await Resource.find({ course: req.body._id });
-
-  console.log(resources);
 
   if (resources) {
     const fileLinks = resources.map((resource) => resource.file);

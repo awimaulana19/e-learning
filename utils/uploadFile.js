@@ -16,11 +16,11 @@ const uploadFileCourse = upload.fields([
 const uploadSingleFile = upload.single("file");
 
 const storage = new Storage({
-  projectId: "project-latihan-awi",
+  projectId: process.env.PROJECT_ID_GCP,
   keyFilename: "./utils/serviceAccountKey.json",
 });
 
-const bucketName = "sman6-learning-storage";
+const bucketName = process.env.BUCKET_NAME_GCP;
 const bucket = storage.bucket(bucketName);
 
 const uploadFile = async (file) => {

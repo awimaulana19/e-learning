@@ -10,6 +10,7 @@ const methodOverride = require("method-override");
 const passport = require("passport");
 const { db } = require("./utils/db");
 require("./utils/adminSeeder");
+require("./utils/addServiceAccount");
 
 const app = express();
 const port = 3000;
@@ -25,11 +26,11 @@ const store = new MongoDBSession({
   collection: "sessions",
 });
 
-app.use(cookieParser("inirahasiaelearning321"));
+app.use(cookieParser(process.env.SECRET_KEY));
 
 app.use(
   session({
-    secret: "inirahasiaelearning321",
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false,
     store: store,
