@@ -9,6 +9,7 @@ const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const passport = require("passport");
 const { db } = require("./utils/db");
+require("./utils/adminSeeder");
 
 const app = express();
 const port = 3000;
