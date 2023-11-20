@@ -68,6 +68,21 @@ const getGuru = async (req, res) => {
   });
 };
 
+const getGuruApi = async (req, res) => {
+  try {
+    const users = await User.find({ roles: "guru" });
+
+    if (!users || users.length === 0) {
+      return res.status(404).json({ message: 'No guru found' });
+    }
+
+    res.json({ users });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 const createGuru = async (req, res) => {
   const result = validationResult(req);
   if (!result.isEmpty()) {
@@ -423,6 +438,7 @@ module.exports = {
   dashboardGuru,
   dashboardSiswa,
   getGuru,
+  getGuruApi,
   createGuru,
   updateGuru,
   deleteGuru,

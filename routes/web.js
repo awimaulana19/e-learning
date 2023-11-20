@@ -11,6 +11,7 @@ const {
   dashboardGuru,
   dashboardSiswa,
   getGuru,
+  getGuruApi,
   createGuru,
   updateGuru,
   deleteGuru,
@@ -144,5 +145,7 @@ router.put(
   updateProfile
 );
 router.put("/siswa/pass", isSiswa, updatePassword);
+
+router.get("/api/admin/guru", getGuruApi);
 
 module.exports = router;
