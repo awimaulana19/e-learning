@@ -11,6 +11,7 @@ const passport = require("passport");
 const { db } = require("./utils/db");
 require("./utils/adminSeeder");
 require("./utils/addServiceAccount");
+const cors = require("cors");
 
 const app = express();
 const port = 3000;
@@ -47,6 +48,7 @@ app.use(passport.session());
 
 app.use(methodOverride("_method"));
 
+app.use(cors());
 app.use(router);
 
 app.use((req, res) => {
