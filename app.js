@@ -1,5 +1,5 @@
 const express = require("express");
-require('dotenv').config();
+require("dotenv").config();
 const router = require("./routes/web.js");
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
@@ -16,7 +16,11 @@ require("./utils/addServiceAccount");
 const app = express();
 const port = 3000;
 
-app.use(cors());
+const corsOptions = {
+  origin: "https://e-learning-gyidruquva-et.a.run.app",
+};
+
+app.use(cors(corsOptions));
 
 app.set("view engine", "ejs");
 app.use(expressLayouts);
