@@ -17,7 +17,7 @@ const app = express();
 const port = 3000;
 
 const corsOptions = {
-  origin: "https://e-learning-gyidruquva-et.a.run.app",
+  origin: "http://127.0.0.1:8000",
 };
 
 app.use(cors(corsOptions));
