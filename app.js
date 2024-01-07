@@ -9,11 +9,14 @@ const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const passport = require("passport");
 const { db } = require("./utils/db");
+const cors = require("cors");
 require("./utils/adminSeeder");
 require("./utils/addServiceAccount");
 
 const app = express();
 const port = 3000;
+
+app.use(cors());
 
 app.set("view engine", "ejs");
 app.use(expressLayouts);
