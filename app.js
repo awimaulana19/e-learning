@@ -18,6 +18,11 @@ const port = 3000;
 
 app.use(cors());
 
+app.use((req, res, next) => {
+  res.header('X-Frame-Options', 'ALLOW-FROM http://127.0.0.1:8000/');
+  next();
+});
+
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 
