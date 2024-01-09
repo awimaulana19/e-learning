@@ -11,12 +11,9 @@ const passport = require("passport");
 const { db } = require("./utils/db");
 require("./utils/adminSeeder");
 require("./utils/addServiceAccount");
-const cors = require("cors");
 
 const app = express();
 const port = 3000;
-
-app.use(cors());
 
 app.set("view engine", "ejs");
 app.use(expressLayouts);
@@ -49,11 +46,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(methodOverride("_method"));
-
-app.use((req, res, next) => {
-  res.header('X-Frame-Options', 'ALLOWALL');
-  next();
-});
 
 app.use(router);
 
