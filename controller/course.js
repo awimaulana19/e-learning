@@ -72,27 +72,59 @@ const createCourse = async (req, res) => {
     });
     await course.save();
 
-    if (req.body.nama_resource) {
+    if (req.body.nama_resource || req.body.nama_link) {
       const resources = [];
 
-      for (let i = 0; i < req.files.file.length; i++) {
-        let nama;
-        if (req.files.file.length == 1) {
-          nama = req.body.nama_resource;
-        } else {
-          nama = req.body.nama_resource[i];
+      if (req.body.nama_resource) {
+        for (let i = 0; i < req.files.file.length; i++) {
+          let nama;
+          if (req.files.file.length == 1) {
+            nama = req.body.nama_resource;
+          } else {
+            nama = req.body.nama_resource[i];
+          }
+          const file = req.files.file[i];
+          const publicUrl = await uploadFile(file);
+
+          const resource = new Resource({
+            nama: nama,
+            file: publicUrl,
+            course: course._id,
+          });
+          await resource.save();
+
+          resources.push(resource._id);
         }
-        const file = req.files.file[i];
-        const publicUrl = await uploadFile(file);
+      }
 
-        const resource = new Resource({
-          nama: nama,
-          file: publicUrl,
-          course: course._id,
-        });
-        await resource.save();
+      if (req.body.nama_link) {
+        if (Array.isArray(req.body.nama_link)) {
+          for (let i = 0; i < req.body.nama_link.length; i++) {
+            const nama = req.body.nama_link[i];
+            const link = req.body.link[i];
 
-        resources.push(resource._id);
+            const resource = new Resource({
+              nama: nama,
+              file: link,
+              course: course._id,
+            });
+            await resource.save();
+
+            resources.push(resource._id);
+          }
+        } else {
+          const nama = req.body.nama_link;
+          const link = req.body.link;
+
+          const resource = new Resource({
+            nama: nama,
+            file: link,
+            course: course._id,
+          });
+          await resource.save();
+
+          resources.push(resource._id);
+        }
       }
 
       course.resources = resources;
@@ -196,7 +228,9 @@ const deleteCourse = async (req, res) => {
     const fileLinks = resources.map((resource) => resource.file);
 
     for (const fileLink of fileLinks) {
-      deleteFileByPublicUrl(fileLink);
+      if (fileLink.startsWith("https://storage.googleapis.com")) {
+        deleteFileByPublicUrl(fileLink);
+      }
     }
 
     Resource.deleteMany({ course: req.body._id }).then((result) => {});

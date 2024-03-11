@@ -235,10 +235,22 @@
             />
           </div>
           <div class="mb-3">
-            <label for="file" class="form-label">Materi</label>
+            <div class="d-flex justify-content-between align-items-center">
+              <label for="file" class="form-label">Materi</label>
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input mb-1"
+                  type="checkbox"
+                  id="flexSwitchCheckDefault"
+                  onchange="updateLabel(this)"
+                /><label class="form-check-label" for="flexSwitchCheckDefault"
+                  >File</label
+                >
+              </div>
+            </div>
             <input
               type="file"
-              class="form-control"
+              class="form-control file-input"
               name="file"
               id="file"
               required
@@ -306,8 +318,33 @@
             />
           </div>
           <div class="mb-3">
-            <label for="file" class="form-label">Materi</label>
-            <input type="file" class="form-control" name="file" id="file" />
+            <div class="d-flex justify-content-between align-items-center">
+              <label for="file" class="form-label">Materi</label>
+              <div class="form-check form-switch">
+                <% if (resource.file.startsWith("https://storage.googleapis.com")) { %>
+                  <input
+                    class="form-check-input mb-1"
+                    type="checkbox"
+                    id="flexSwitchCheckFile"
+                    onchange="updateLabel(this)"
+                  />
+                  <label class="form-check-label" for="flexSwitchCheckFile">File</label>
+                </div>
+                </div>
+                <input type="file" class="form-control file-input" name="file" id="file" />
+                <% } else { %>
+                  <input
+                    class="form-check-input mb-1"
+                    type="checkbox"
+                    id="flexSwitchCheckLink"
+                    checked
+                    onchange="updateLabel(this)"
+                  />
+                  <label class="form-check-label" for="flexSwitchCheckLink">Link</label>
+                </div>
+                </div>
+                <input type="text" class="form-control file-input" name="link" id="file" pattern="https?://.+" title="Masukkan link yang valid (dimulai dengan http:// atau https://)" value="<%= resource.file %>" />
+                <% } %>                
           </div>
           <input type="hidden" name="_id" value="<%= resource._id %>" />
         </div>
@@ -759,6 +796,32 @@
 <% } %>
 
 <script src="/static/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
+
+<script>
+  function updateLabel(checkbox) {
+    var label = checkbox.nextElementSibling;
+    var fileInput = checkbox.closest(".mb-3").querySelector(".file-input");
+
+    if (checkbox.checked) {
+      label.innerHTML = "Link";
+      fileInput.setAttribute("name", "link");
+      fileInput.setAttribute("type", "text");
+      fileInput.setAttribute("placeholder", "Masukkan Link");
+      fileInput.setAttribute("pattern", "https?://.+");
+      fileInput.setAttribute(
+        "title",
+        "Masukkan link yang valid (dimulai dengan http:// atau https://)"
+      );
+    } else {
+      label.innerHTML = "File";
+      fileInput.setAttribute("name", "file");
+      fileInput.setAttribute("type", "file");
+      fileInput.removeAttribute("placeholder");
+      fileInput.removeAttribute("pattern");
+      fileInput.removeAttribute("title");
+    }
+  }
+</script>
 
 <% if (msg.length !== 0) { %>
 <script>

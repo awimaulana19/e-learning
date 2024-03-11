@@ -44,70 +44,74 @@
             ></textarea>
           </div>
           <div class="mb-3">
-            <div class="mb-2 d-flex">
-              <label for="nama_resource" class="form-label me-2"
-                >Materi :
-              </label>
-              <button
-                type="button"
-                id="tambahMateri"
-                class="badge bg-primary d-flex justify-content-center align-items-center me-2 border-0"
-                onclick="tambahInputMateri()"
-              >
-                Tambah
-              </button>
-              <button
-                type="button"
-                id="bersihkanMateri"
-                class="badge bg-danger d-flex justify-content-center align-items-center border-0"
-                onclick="bersihkanSemuaMateri()"
-              >
-                Bersihkan
-              </button>
+            <div class="mb-2 d-flex justify-content-between">
+              <label for="nama_resource" class="form-label me-2">Materi </label>
+              <div class="d-flex">
+                <button
+                  type="button"
+                  id="tambahMateri"
+                  class="badge bg-primary d-flex justify-content-center align-items-center me-2 border-0"
+                  onclick="tambahInputMateri()"
+                >
+                  <i class="fas fa-plus-square"></i>
+                </button>
+                <button
+                  type="button"
+                  id="bersihkanMateri"
+                  class="badge bg-danger d-flex justify-content-center align-items-center border-0"
+                  onclick="bersihkanSemuaMateri()"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
             </div>
           </div>
           <div id="materiContainer"></div>
           <div class="mb-3">
-            <div class="mb-2 d-flex">
-              <label for="kehadiran" class="form-label me-2">Presensi : </label>
-              <button
-                type="button"
-                id="tambahKehadiran"
-                class="badge bg-primary d-flex justify-content-center align-items-center me-2 border-0"
-                onclick="tambahInputKehadiran()"
-              >
-                Tambah
-              </button>
-              <button
-                type="button"
-                id="bersihkanKehadiran"
-                class="badge bg-danger d-flex justify-content-center align-items-center border-0"
-                onclick="bersihkanSemuaKehadiran()"
-              >
-                Bersihkan
-              </button>
+            <div class="mb-2 d-flex justify-content-between">
+              <label for="kehadiran" class="form-label me-2">Presensi</label>
+              <div class="d-flex">
+                <button
+                  type="button"
+                  id="tambahKehadiran"
+                  class="badge bg-primary d-flex justify-content-center align-items-center me-2 border-0"
+                  onclick="tambahInputKehadiran()"
+                >
+                  <i class="fas fa-plus-square"></i>
+                </button>
+                <button
+                  type="button"
+                  id="bersihkanKehadiran"
+                  class="badge bg-danger d-flex justify-content-center align-items-center border-0"
+                  onclick="bersihkanSemuaKehadiran()"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
             </div>
           </div>
           <div id="kehadiranContainer"></div>
           <div class="mb-3">
-            <div class="mb-2 d-flex">
-              <label for="nama_tugas" class="form-label me-2">Tugas : </label>
-              <button
-                type="button"
-                id="tambahTugas"
-                class="badge bg-primary d-flex justify-content-center align-items-center me-2 border-0"
-                onclick="tambahInputTugas()"
-              >
-                Tambah
-              </button>
-              <button
-                type="button"
-                id="bersihkanTugas"
-                class="badge bg-danger d-flex justify-content-center align-items-center border-0"
-                onclick="bersihkanSemuaTugas()"
-              >
-                Bersihkan
-              </button>
+            <div class="mb-2 d-flex justify-content-between">
+              <label for="nama_tugas" class="form-label me-2">Tugas</label>
+              <div class="d-flex">
+                <button
+                  type="button"
+                  id="tambahTugas"
+                  class="badge bg-primary d-flex justify-content-center align-items-center me-2 border-0"
+                  onclick="tambahInputTugas()"
+                >
+                  <i class="fas fa-plus-square"></i>
+                </button>
+                <button
+                  type="button"
+                  id="bersihkanTugas"
+                  class="badge bg-danger d-flex justify-content-center align-items-center border-0"
+                  onclick="bersihkanSemuaTugas()"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
             </div>
           </div>
           <div id="tugasContainer"></div>
@@ -137,23 +141,8 @@
   function tambahInputMateri() {
     var materiContainer = document.getElementById("materiContainer");
 
-    var div = document.createElement("div");
-    div.classList.add("mb-3");
-
-    var label = document.createElement("label");
-    label.setAttribute("for", "file");
-    label.classList.add("form-label");
-    label.innerText = "Materi";
-
-    var input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.classList.add("form-control");
-    input.setAttribute("name", "file");
-    input.setAttribute("id", "file");
-    input.setAttribute("required", "true");
-
-    div.appendChild(label);
-    div.appendChild(input);
+    var outerDiv = document.createElement("div");
+    outerDiv.classList.add("mb-3");
 
     var div2 = document.createElement("div");
     div2.classList.add("mb-3");
@@ -165,7 +154,7 @@
 
     var input2 = document.createElement("input");
     input2.setAttribute("type", "text");
-    input2.classList.add("form-control");
+    input2.classList.add("form-control", "resource-input");
     input2.setAttribute("name", "nama_resource");
     input2.setAttribute("id", "nama_resource");
     input2.setAttribute("required", "true");
@@ -173,8 +162,51 @@
     div2.appendChild(label2);
     div2.appendChild(input2);
 
-    materiContainer.appendChild(div2);
-    materiContainer.appendChild(div);
+    var innerDiv = document.createElement("div");
+    innerDiv.classList.add(
+      "d-flex",
+      "justify-content-between",
+      "align-items-center"
+    );
+
+    var label = document.createElement("label");
+    label.setAttribute("for", "file");
+    label.classList.add("form-label");
+    label.innerText = "Materi";
+
+    var switchDiv = document.createElement("div");
+    switchDiv.classList.add("form-check", "form-switch");
+
+    var switchInput = document.createElement("input");
+    switchInput.classList.add("form-check-input", "mb-1");
+    switchInput.setAttribute("type", "checkbox");
+    switchInput.setAttribute("id", "flexSwitchCheckDefault");
+    switchInput.setAttribute("onchange", "updateLabel(this)");
+
+    var switchLabel = document.createElement("label");
+    switchLabel.classList.add("form-check-label");
+    switchLabel.setAttribute("for", "flexSwitchCheckDefault");
+    switchLabel.innerText = "File";
+
+    switchDiv.appendChild(switchInput);
+    switchDiv.appendChild(switchLabel);
+
+    innerDiv.appendChild(label);
+    innerDiv.appendChild(switchDiv);
+
+    outerDiv.appendChild(div2);
+    outerDiv.appendChild(innerDiv);
+
+    var fileInput = document.createElement("input");
+    fileInput.setAttribute("type", "file");
+    fileInput.classList.add("form-control", "file-input");
+    fileInput.setAttribute("name", "file");
+    fileInput.setAttribute("id", "file");
+    fileInput.setAttribute("required", "true");
+
+    outerDiv.appendChild(fileInput);
+
+    materiContainer.appendChild(outerDiv);
   }
 
   function bersihkanSemuaMateri() {
@@ -416,5 +448,34 @@
     var kehadiranContainer = document.getElementById("kehadiranContainer");
     kehadiranContainer.innerHTML = "";
     isKehadiranAdded = false;
+  }
+
+  function updateLabel(checkbox) {
+    var label = checkbox.nextElementSibling;
+    var resourceInput = checkbox
+      .closest(".mb-3")
+      .querySelector(".resource-input");
+    var fileInput = checkbox.closest(".mb-3").querySelector(".file-input");
+
+    if (checkbox.checked) {
+      label.innerHTML = "Link";
+      fileInput.setAttribute("name", "link");
+      fileInput.setAttribute("type", "text");
+      fileInput.setAttribute("placeholder", "Masukkan Link");
+      resourceInput.setAttribute("name", "nama_link");
+      fileInput.setAttribute("pattern", "https?://.+");
+      fileInput.setAttribute(
+        "title",
+        "Masukkan link yang valid (dimulai dengan http:// atau https://)"
+      );
+    } else {
+      label.innerHTML = "File";
+      fileInput.setAttribute("name", "file");
+      fileInput.setAttribute("type", "file");
+      fileInput.removeAttribute("placeholder");
+      resourceInput.setAttribute("name", "nama_resource");
+      fileInput.removeAttribute("pattern");
+      fileInput.removeAttribute("title");
+    }
   }
 </script>

@@ -7,8 +7,14 @@ const createResource = async (req, res) => {
   try {
     const course = await Course.findOne({ _id: req.body.course });
 
-    const file = req.file;
-    const publicUrl = await uploadFile(file);
+    let publicUrl;
+
+    if (req.body.link) {
+      publicUrl = req.body.link;
+    } else {
+      const file = req.file;
+      publicUrl = await uploadFile(file);
+    }
 
     const resource = new Resource({
       nama: req.body.nama,
@@ -35,9 +41,15 @@ const updateResource = async (req, res) => {
   let publicUrl;
 
   if (!req.file) {
-    publicUrl = resource.file;
+    if (req.body.link) {
+      publicUrl = req.body.link;
+    } else {
+      publicUrl = resource.file;
+    }
   } else {
-    deleteFileByPublicUrl(resource.file);
+    if (resource.file.startsWith("https://storage.googleapis.com")) {
+      deleteFileByPublicUrl(resource.file);
+    }
     const file = req.file;
     publicUrl = await uploadFile(file);
   }
@@ -61,7 +73,9 @@ const deleteResource = async (req, res) => {
   try {
     const resource = await Resource.findOne({ _id: req.params._id });
 
-    deleteFileByPublicUrl(resource.file);
+    if (resource.file.startsWith("https://storage.googleapis.com")) {
+      deleteFileByPublicUrl(resource.file);
+    }
 
     const course = await Course.findById(resource.course);
     course.resources = course.resources.filter(

@@ -1,7 +1,13 @@
 <footer>
-    <div class="footer clearfix mb-0 text-muted">
-        <div class="d-flex justify-content-center">
-            <p>2023 &copy; SMAN 6 Luwu Utara</p>
-        </div>
+  <div class="footer clearfix mb-0 text-muted">
+    <div class="d-flex justify-content-center">
+      <p><span id="tahun-sekarang"></span> &copy; SMAN 6 Luwu Utara</p>
     </div>
+  </div>
 </footer>
+
+<script>
+  var tahunElement = document.getElementById("tahun-sekarang");
+  var tahunSekarang = new Date().getFullYear();
+  tahunElement.innerHTML = tahunSekarang;
+</script>
