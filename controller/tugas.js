@@ -142,6 +142,40 @@ const getTugasById = async (req, res) => {
   }
 };
 
+const rekapanTugasById = async (req, res) => {
+  try {
+    const courses = await Course.find({ mapel: req.params._id })
+      .populate("resources")
+      .populate("attendance")
+      .populate("tugas");
+
+    const mapel = await Mapel.findOne({ _id: req.params._id });
+
+    const nilai = await Nilai.find();
+
+    const user = await User.find({
+      kelas: mapel.kelas,
+      jurusan: mapel.jurusan,
+      tingkatan: mapel.tingkatan,
+    });
+
+    res.render("guru/mapel/rekapan/mahasiswa", {
+      layout: "layouts/main",
+      title: "Rekapan Tugas",
+      courses,
+      mapel,
+      nilai,
+      user,
+      msg: req.flash("msg"),
+    });
+  } catch (error) {
+    res.status(404);
+    res.render("error-404", {
+      layout: "error-404",
+    });
+  }
+};
+
 const getTugasSiswa = async (req, res) => {
   try {
     const tugas = await Tugas.findOne({ _id: req.params._id }).populate(
@@ -236,6 +270,7 @@ module.exports = {
   updateTugas,
   deleteTugas,
   getTugasById,
+  rekapanTugasById,
   getTugasSiswa,
   createKumpulTugas,
   deleteKumpulTugas,

@@ -1,0 +1,229 @@
+<style>
+  .no-hover:hover {
+    color: white;
+  }
+</style>
+
+<section class="section mt-3">
+  <div class="col-lg-12 col-md-12 mb-4">
+    <div class="card pb-4">
+      <div
+        class="d-flex align-items-center justify-content-between mt-2"
+        style="margin-bottom: -15px"
+      >
+        <h4 class="card-header"><%= tugas.nama_tugas %></h4>
+        <a
+          href="/guru/tugas/<%= tugas._id %>"
+          class="btn btn-primary me-lg-5 me-4"
+        >
+          Data Siswa
+        </a>
+      </div>
+      <hr width="95%" class="me-auto ms-auto mb-2" />
+      <div class="card-body" style="margin-bottom: -20px; margin-top: -10px">
+        <div
+          class="card border border-primary border-1 mb-0 mt-2 p-3 me-auto ms-auto"
+        >
+          <%= tugas.tugas %> <% if (tugas.file_tugas != "") { %>
+          <a class="mt-2" href="<%= tugas.file_tugas %>">Lampiran File</a>
+          <% } %>
+        </div>
+      </div>
+      <h4 class="card-header">Status Pengumpulan</h4>
+      <div class="card-body">
+        <table class="table table-striped table-bordered">
+          <tbody>
+            <tr>
+              <th class="col-4">Status Pengumpulan</th>
+              <td class="col-8">
+                <% if (nilai == null) { %> Belum Dikumpulkan <% } else { %> <%=
+                nilai.status_pengumpulan %> <% } %>
+              </td>
+            </tr>
+            <tr>
+              <th class="col-4">Nilai</th>
+              <td class="col-8">
+                <% if (nilai == null) { %>
+                <button
+                  type="button"
+                  class="badge bg-primary d-flex justify-content-center align-items-center me-2 border-0"
+                  data-bs-toggle="modal"
+                  data-bs-target="#nilaiTugas"
+                >
+                  Nilai
+                </button>
+                <% } else { %> <% if (typeof nilai.penilaian == 'undefined') {
+                %>
+                <button
+                  type="button"
+                  class="badge bg-primary d-flex justify-content-center align-items-center me-2 border-0"
+                  data-bs-toggle="modal"
+                  data-bs-target="#nilaiTugas"
+                >
+                  Nilai
+                </button>
+                <% } else { %>
+                <div class="d-flex">
+                  <div><%= nilai.penilaian %></div>
+                  <button
+                    type="button"
+                    class="badge bg-success d-flex justify-content-center align-items-center ms-2 border-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#nilaiTugas"
+                  >
+                    Edit Nilai
+                  </button>
+                </div>
+                <% } } %>
+              </td>
+            </tr>
+            <tr>
+              <th class="col-4">Batas Waktu</th>
+              <td class="col-8">
+                <% const batasWaktu = new Date(tugas.batas_tanggal); %> <% const
+                options = { weekday: 'long', day: 'numeric', month: 'long',
+                year: 'numeric' }; %> <%= new Intl.DateTimeFormat('id-ID',
+                options).format(batasWaktu) %>, <%= tugas.batas_jam %>
+              </td>
+            </tr>
+            <tr>
+              <th class="col-4">Waktu Tersisa</th>
+              <% if (nilai == null) { %>
+              <td class="col-8">
+                <% const waktuTersisa = new Date(tugas.batas_tanggal + ' ' +
+                tugas.batas_jam); %> <% const sekarang = new Date(); %> <% const
+                selisih = waktuTersisa - sekarang; %> <% if (selisih > 0) { %>
+                <% const hari = Math.floor(selisih / (1000 * 60 * 60 * 24)); %>
+                <% const sisaJam = selisih - (hari * 1000 * 60 * 60 * 24); %> <%
+                const jam = Math.floor(sisaJam / (1000 * 60 * 60)); %> <% const
+                sisaMenit = sisaJam - (jam * 1000 * 60 * 60); %> <% const menit
+                = Math.floor(sisaMenit / (1000 * 60)); %> <%= hari %> Hari <%=
+                jam %> Jam <%= menit %> Menit <% } else { %> <% const terlambat
+                = Math.abs(selisih); %> <% const hari = Math.floor(terlambat /
+                (1000 * 60 * 60 * 24)); %> <% const sisaJam = terlambat - (hari
+                * 1000 * 60 * 60 * 24); %> <% const jam = Math.floor(sisaJam /
+                (1000 * 60 * 60)); %> <% const sisaMenit = sisaJam - (jam * 1000
+                * 60 * 60); %> <% const menit = Math.floor(sisaMenit / (1000 *
+                60)); %> Terlambat <%= hari %> Hari <%= jam %> Jam <%= menit %>
+                Menit <% } %>
+              </td>
+              <% } else { %>
+              <td class="col-8">Dikumpulkan</td>
+              <% } %>
+            </tr>
+            <tr>
+              <th class="col-4">Pengumpulan Terakhir</th>
+              <td class="col-8">
+                <% if (nilai == null) { %> Belum Dikumpulkan <% } else { %> <%=
+                nilai.waktu_pengumpulan %> <% } %>
+              </td>
+            </tr>
+            <tr>
+              <th class="col-4">Berkas Pengumpulan</th>
+              <td class="col-8">
+                <% if (nilai == null) { %> Belum Dikumpulkan <% } else { %>
+                <a
+                  style="width: fit-content"
+                  href="<%= nilai.file_pengumpulan %>"
+                  class="no-hover badge bg-secondary d-flex justify-content-center align-items-center me-2 border-0"
+                >
+                  Lihat
+                </a>
+                <% } %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% if (nilai != null) { %>
+<div
+  class="modal fade text-left"
+  id="nilaiTugas"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel1"
+  aria-hidden="true"
+>
+  <form action="/guru/nilai?_method=PUT" method="POST">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel1">Nilai Tugas</h5>
+          <button
+            type="button"
+            class="close rounded-pill"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i data-feather="x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="penilaian" class="form-label">Nilai</label
+            ><input
+              type="number"
+              class="form-control"
+              name="penilaian"
+              id="penilaian"
+              required
+            />
+          </div>
+          <input type="hidden" name="nilaiId" value="<%= nilai._id %>" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" data-bs-dismiss="modal">
+            <i class="bx bx-x d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Batal</span>
+          </button>
+          <button type="submit" class="btn btn-primary ml-1">
+            <i class="bx bx-check d-block d-sm-none"></i>
+            <span class="d-none d-sm-block">Nilai</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<% } else { %>
+<div
+  class="modal fade text-left"
+  id="nilaiTugas"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel1">Nilai Tugas</h5>
+        <button
+          type="button"
+          class="close rounded-pill"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <i data-feather="x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4 class="mt-2">Belum Dikumpulkan</h4>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary d-flex justify-content-center align-items-center"
+          data-bs-dismiss="modal"
+        >
+          Oke
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>

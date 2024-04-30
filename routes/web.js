@@ -45,6 +45,7 @@ const {
   updateTugas,
   deleteTugas,
   getTugasById,
+  rekapanTugasById,
   getTugasSiswa,
   createKumpulTugas,
   deleteKumpulTugas,
@@ -115,6 +116,8 @@ router.post("/guru/tugas", isGuru, uploadSingleFile, createTugas);
 router.put("/guru/tugas", isGuru, uploadSingleFile, updateTugas);
 router.get("/guru/delete-tugas/:_id", isGuru, deleteTugas);
 router.get("/guru/tugas/:_id", isGuru, getTugasById);
+
+router.get("/guru/rekapan-tugas/:_id", isGuru, rekapanTugasById);
 
 router.get("/guru/nilai/:_id/:siswaId", isGuru, getNilaiById);
 router.put("/guru/nilai", isGuru, updateNilai);

@@ -186,6 +186,8 @@ const getCourseById = async (req, res) => {
       .populate("attendance")
       .populate("tugas");
 
+    console.log(course);
+
     const mapel = await Mapel.findOne({ _id: course.mapel });
 
     res.render("guru/mapel/edit", {

@@ -1,0 +1,64 @@
+<link
+  rel="stylesheet"
+  href="/static/assets/extensions/sweetalert2/sweetalert2.min.css"
+/>
+
+<section class="section mt-3">
+  <div class="col-lg-12 col-md-12 mb-4">
+    <div class="card pb-4">
+      <div
+        class="d-flex align-items-center justify-content-between mt-2"
+        style="margin-bottom: -15px"
+      >
+        <h4 class="card-header">Nilai XII MIA 2</h4>
+      </div>
+      <hr width="95%" class="me-auto ms-auto mb-2" />
+      <h4 class="card-header">Data Siswa</h4>
+      <div class="card-body">
+        <% if (user.length == 0) { %>
+        <p class="text-center">Data Siswa Tidak Ada</p>
+        <% } else { %>
+        <div class="table-responsive">
+          <table class="table table-striped" id="table1">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <% courses.forEach(course => { %>
+                    <% if (typeof course.tugas != 'undefined') { %>
+                    <th><%= course.tugas.nama_tugas %></th>
+                    <% } %>
+                    <% }) %>
+                    <th>Rata Rata</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% user.forEach(item => { %>
+                <% let totalNilai = 0; %>
+                <% let jumlahTugas = 0; %>
+                <tr>
+                    <td><%= item.nama %></td>
+                    <% courses.forEach(course => { %>
+                    <% if (typeof course.tugas != 'undefined') { %>
+                    <% const nilaiData = nilai.find(n => n.user.toString() === item._id.toString() && n.tugas.toString() === course.tugas._id.toString()); %>
+                    <% jumlahTugas++; %>
+                    <% if (nilaiData && typeof nilaiData.penilaian != 'undefined') { %>
+                    <% totalNilai += parseFloat(nilaiData.penilaian); %>
+                    <td><%= nilaiData.penilaian %></td>
+                    <% } else { %>
+                    <td>0</td>
+                    <% } %>
+                    <% } %>
+                    <% }) %>
+                    <% const rataRata = jumlahTugas > 0 ? totalNilai / jumlahTugas : 0; %>
+                    <td><%= rataRata.toFixed(2) %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
