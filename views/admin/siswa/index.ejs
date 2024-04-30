@@ -127,12 +127,29 @@
                               class="form-select"
                               name="tingkatan"
                               id="edittingkatan"
+                              required
                             >
                               <option value="" selected>Pilh Tingkatan</option>
                               <option <% if (item.tingkatan == "1") { %> selected <% } %> value="1">1</option>
                               <option <% if (item.tingkatan == "2") { %> selected <% } %> value="2">2</option>
                               <option <% if (item.tingkatan == "3") { %> selected <% } %> value="3">3</option>
                               <option <% if (item.tingkatan == "4") { %> selected <% } %> value="4">4</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="editkelas" class="form-label"
+                              >Kelas</label
+                            >
+                            <select
+                              class="form-select"
+                              name="kelas"
+                              id="editkelas"
+                              required
+                            >
+                              <option value="" selected>Pilh Kelas</option>
+                              <option <% if (item.kelas == "X") { %> selected <% } %> value="X">10</option>
+                              <option <% if (item.kelas == "XI") { %> selected <% } %> value="XI">11</option>
+                              <option <% if (item.kelas == "XII") { %> selected <% } %> value="XII">12</option>
                             </select>
                           </div>
                           <input

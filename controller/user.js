@@ -298,6 +298,7 @@ const updateSiswa = async (req, res) => {
           username: req.body.username,
           email: req.body.email,
           tingkatan: req.body.tingkatan,
+          kelas: req.body.kelas,
         },
       }
     ).then((result) => {
